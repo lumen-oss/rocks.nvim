@@ -1,16 +1,3 @@
----@mod lux-config lux.nvim configuration
----
----@brief [[
----
---- You can set lux.nvim configuration options via `vim.g.lux_nvim`.
----
---->
---- ---@type luxOpts
---- vim.g.lux_nvim
----<
----
----@brief ]]
-
 local config = {}
 
 ---@tag vim.g.lux_nvim

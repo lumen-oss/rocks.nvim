@@ -1,20 +1,3 @@
----@mod lux-nvim.config.check lux.nvim config validation
---
--- Copyright (C) 2025 Neorocks Org.
---
--- Version:    0.1.0
--- License:    GPLv3
--- Created:    24 Oct 2023
--- Updated:    24 Oct 2023
--- Homepage:   https://github.com/nvim-neorocks/lux.nvim
--- Maintainers: NTBBloodbath <bloodbathalchemist@protonmail.com>, Vhyrro <vhyrro@gmail.com>, mrcjkb <marc@jakobi.dev>
---
----@brief [[
---
--- lux.nvim config validation (internal)
---
----@brief ]]
-
 local check = {}
 
 ---@param tbl table The table to validate
