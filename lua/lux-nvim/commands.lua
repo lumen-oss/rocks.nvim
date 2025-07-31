@@ -40,6 +40,8 @@
 local commands = {}
 
 local fzy = require("lux-nvim.fzy")
+local lux_lua = require("lux-nvim.lux-lua-shim")
+local log = require("lux-nvim.log")
 
 ---@param name string
 ---@param query string | nil
@@ -123,7 +125,7 @@ local rocks_command_tbl = {
                 local user_rocks = config.get_user_rocks()
                 local rock = user_rocks[rock_name]
                 if not rock then
-                    vim.notify(("lux-nvim update: %s is not installed"):format(rock_name), vim.log.levels.ERROR)
+                    log.error(("lux-nvim update: %s is not installed"):format(rock_name))
                     return
                 elseif rock.version == "dev" or rock.version == "scm" then
                     -- Skip "rock not found" prompt
@@ -134,7 +136,7 @@ local rocks_command_tbl = {
                     cmd = "update",
                 })
             else
-                vim.notify("lux-nvim update: Too many arguments: " .. vim.inspect(args), vim.log.levels.ERROR)
+                log.error("lux-nvim update: Too many arguments: " .. vim.inspect(args))
             end
         end,
         complete = function(query)
@@ -153,7 +155,7 @@ local rocks_command_tbl = {
     install = {
         impl = function(args, opts)
             if #args == 0 then
-                vim.notify("lux-nvim install: Called without required package argument.", vim.log.levels.ERROR)
+                log.error("lux-nvim install: Called without required package argument.")
                 return
             end
             require("lux-nvim.operations").add(args, {
@@ -177,7 +179,7 @@ local rocks_command_tbl = {
     prune = {
         impl = function(args)
             if #args == 0 then
-                vim.notify("lux-nvim prune: Called without required package argument.", vim.log.levels.ERROR)
+                log.error("lux-nvim prune: Called without required package argument.")
                 return
             end
             local package = args[1]
@@ -204,7 +206,7 @@ local rocks_command_tbl = {
         impl = function(args)
             local rock_name = args[1]
             if not rock_name then
-                vim.notify("'pin {rock}: Missing argument {rock}", vim.log.levels.ERROR)
+                log.error("'pin {rock}: Missing argument {rock}")
                 return
             end
             require("lux-nvim.operations").pin(rock_name)
@@ -221,7 +223,7 @@ local rocks_command_tbl = {
         impl = function(args)
             local rock_name = args[1]
             if not rock_name then
-                vim.notify("'pin {rock}: Missing argument {rock}", vim.log.levels.ERROR)
+                log.error("'pin {rock}: Missing argument {rock}")
                 return
             end
             require("lux-nvim.operations").unpin(rock_name)
@@ -237,7 +239,7 @@ local rocks_command_tbl = {
     packadd = {
         impl = function(args, opts)
             if #args ~= 1 then
-                vim.notify("lux-nvim packadd: Called without required rock argument.", vim.log.levels.ERROR)
+                log.error("lux-nvim packadd: Called without required rock argument.")
                 return
             end
             local rock_name = args[1]
@@ -257,13 +259,13 @@ local function rocks(opts)
     local args = #fargs > 1 and vim.list_slice(fargs, 2, #fargs) or {}
     local command = rocks_command_tbl[cmd]
     if not command then
-        vim.notify("lux-nvim: Unknown command: " .. cmd, vim.log.levels.ERROR)
+        log.error("lux-nvim: Unknown command: " .. cmd)
         return
     end
     command.impl(args, opts)
 end
 
----@package
+---@return Result<void>
 function commands.create_commands()
     log.trace("Creating commands")
     vim.api.nvim_create_user_command("Lux", rocks, {
