@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.46.1](https://github.com/lumen-oss/rocks.nvim/compare/v2.46.0...v2.46.1) (2025-09-15)
+
+
+### Bug Fixes
+
+* update nvim-neorocks references -&gt; lumen-oss ([b823a2f](https://github.com/lumen-oss/rocks.nvim/commit/b823a2fc2e8f537a44380df136c53d036a5996cd))
+
 ## [2.46.0](https://github.com/lumen-oss/rocks.nvim/compare/v2.45.2...v2.46.0) (2025-08-18)
 
 
