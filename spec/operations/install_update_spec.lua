@@ -1,6 +1,4 @@
 local tempdir = vim.fn.tempname()
-vim.system({ "rm", "-r", tempdir }):wait()
-vim.system({ "mkdir", "-p", tempdir }):wait()
 vim.g.rocks_nvim = {
     luarocks_binary = "luarocks",
     rocks_path = tempdir,
@@ -11,6 +9,12 @@ vim.env.PLENARY_TEST_TIMEOUT = 60000 * 5
 describe("install/update", function()
     local operations = require("rocks.operations")
     local state = require("rocks.state")
+
+    setup(function()
+        vim.system({ "rm", "-r", tempdir }):wait()
+        vim.system({ "mkdir", "-p", tempdir }):wait()
+    end)
+
     nio.tests.it("install and update rocks", function()
         local autocmd_future = nio.control.future()
         vim.api.nvim_create_autocmd("User", {

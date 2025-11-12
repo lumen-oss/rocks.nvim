@@ -1,14 +1,17 @@
 vim.env.PLENARY_TEST_TIMEOUT = 60000
 
 local tempdir = vim.fn.tempname()
-vim.system({ "rm", "-r", tempdir }):wait()
-vim.system({ "mkdir", "-p", tempdir }):wait()
 vim.g.rocks_nvim = {
     rocks_path = tempdir,
     config_path = vim.fs.joinpath(tempdir, "rocks.toml"),
 }
 
 describe("config", function()
+    setup(function()
+        vim.system({ "rm", "-r", tempdir }):wait()
+        vim.system({ "mkdir", "-p", tempdir }):wait()
+    end)
+
     local config = require("rocks.config.internal")
     local constants = require("rocks.constants")
     it("default servers", function()

@@ -1,6 +1,4 @@
 local tempdir = vim.fn.tempname()
-vim.system({ "rm", "-r", tempdir }):wait()
-vim.system({ "mkdir", "-p", tempdir }):wait()
 vim.g.rocks_nvim = {
     luarocks_binary = "luarocks",
     rocks_path = tempdir,
@@ -20,6 +18,11 @@ end
 
 vim.env.PLENARY_TEST_TIMEOUT = 60000 * 5
 describe("Rocks pin/unpin", function()
+    setup(function()
+        vim.system({ "rm", "-r", tempdir }):wait()
+        vim.system({ "mkdir", "-p", tempdir }):wait()
+    end)
+
     nio.tests.it("pin/unpin plugin with only version", function()
         local rocks_toml = parse_config()
         rocks_toml.plugins = {}
