@@ -1,6 +1,4 @@
 local tempdir = vim.fn.tempname()
-vim.system({ "rm", "-r", tempdir }):wait()
-vim.system({ "mkdir", "-p", tempdir }):wait()
 vim.g.rocks_nvim = {
     luarocks_binary = "luarocks",
     rocks_path = tempdir,
@@ -19,8 +17,13 @@ local luarocks_path = {
 }
 package.path = package.path .. ";" .. table.concat(luarocks_path, ";")
 
-adapter.init()
 describe("rocks.adapter", function()
+    setup(function()
+        vim.system({ "rm", "-r", tempdir }):wait()
+        vim.system({ "mkdir", "-p", tempdir }):wait()
+        adapter.init()
+    end)
+
     nio.tests.it("Can run checkhealth for luarocks plugins", function()
         local mock_health = mock({
             check = function(_) end,
