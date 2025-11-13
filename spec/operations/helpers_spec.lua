@@ -1,6 +1,4 @@
 local tempdir = vim.fn.tempname()
-vim.system({ "rm", "-r", tempdir }):wait()
-vim.system({ "mkdir", "-p", tempdir }):wait()
 vim.g.rocks_nvim = {
     luarocks_binary = "luarocks",
     rocks_path = tempdir,
@@ -10,6 +8,10 @@ vim.g.rocks_nvim = {
 local nio = require("nio")
 vim.env.PLENARY_TEST_TIMEOUT = 60000
 describe("operations.helpers", function()
+    setup(function()
+        vim.system({ "rm", "-r", tempdir }):wait()
+        vim.system({ "mkdir", "-p", tempdir }):wait()
+    end)
     local helpers = require("rocks.operations.helpers")
     local config = require("rocks.config.internal")
     local state = require("rocks.state")

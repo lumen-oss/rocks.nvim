@@ -1,8 +1,6 @@
 vim.env.PLENARY_TEST_TIMEOUT = 60000
 
 local tempdir = vim.fn.tempname()
-vim.system({ "rm", "-r", tempdir }):wait()
-vim.system({ "mkdir", "-p", tempdir }):wait()
 vim.g.rocks_nvim = {
     rocks_path = tempdir,
     config_path = vim.fs.joinpath(tempdir, "rocks.toml"),
@@ -16,6 +14,12 @@ describe("plugin initialization", function()
 
     local cwd = vim.fn.getcwd()
     local plugin_script = vim.fs.joinpath(cwd, "plugin", "rocks.lua")
+
+    setup(function()
+        vim.system({ "rm", "-r", tempdir }):wait()
+        vim.system({ "mkdir", "-p", tempdir }):wait()
+    end)
+
     vim.cmd.source(plugin_script)
     it("emits no notifications", function()
         assert.True(vim.g.loaded_rocks_nvim)

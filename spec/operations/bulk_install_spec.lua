@@ -1,6 +1,4 @@
 local tempdir = vim.fn.tempname()
-vim.system({ "rm", "-r", tempdir }):wait()
-vim.system({ "mkdir", "-p", tempdir }):wait()
 vim.g.rocks_nvim = {
     luarocks_binary = "luarocks",
     rocks_path = tempdir,
@@ -11,6 +9,9 @@ local fs = require("rocks.fs")
 local config = require("rocks.config.internal")
 vim.env.PLENARY_TEST_TIMEOUT = 60000 * 5
 describe("bulk install", function()
+    setup(function()
+        vim.system({ "rm", "-r", tempdir }):wait()
+    end)
     nio.tests.it("synchronises rocks installations", function()
         local to_install = {
             { name = "neorg", version = "7.0.0" },

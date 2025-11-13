@@ -1,7 +1,5 @@
 local tempdir = vim.fn.tempname()
 local rtp_dir = vim.fs.joinpath(tempdir, "rtp")
-vim.system({ "rm", "-r", tempdir }):wait()
-vim.system({ "mkdir", "-p", tempdir }):wait()
 vim.g.rocks_nvim = {
     luarocks_binary = "luarocks",
     rocks_path = tempdir,
@@ -9,6 +7,10 @@ vim.g.rocks_nvim = {
 }
 
 describe("hooks", function()
+    setup(function()
+        vim.system({ "mkdir", "-p", tempdir }):wait()
+    end)
+
     it("modifiers and actions", function()
         local config = require("rocks.config.internal")
         -- Test sync without any rocks
