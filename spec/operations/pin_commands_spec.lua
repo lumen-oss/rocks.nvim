@@ -17,7 +17,7 @@ local function parse_config()
 end
 
 vim.env.PLENARY_TEST_TIMEOUT = 60000 * 5
-describe("Rocks pin/unpin", function()
+describe("Rocks pin/unpin #online", function()
     setup(function()
         vim.system({ "rm", "-r", tempdir }):wait()
         vim.system({ "mkdir", "-p", tempdir }):wait()
