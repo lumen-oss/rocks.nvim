@@ -79,8 +79,10 @@ function runtime.source_start_plugins(user_rocks)
     end
     if #not_found > 0 then
         local config = require("rocks.config.internal")
-        if config.auto_sync then
+        if config.auto_sync == true then
             require("rocks.operations").sync()
+            return
+        elseif config.auto_sync == "disable" then
             return
         end
         local rock_names = vim
