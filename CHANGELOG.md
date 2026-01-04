@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.47.0](https://github.com/lumen-oss/rocks.nvim/compare/v2.46.1...v2.47.0) (2026-01-04)
+
+
+### Features
+
+* `auto_sync` config option to disable prompt ([#690](https://github.com/lumen-oss/rocks.nvim/issues/690)) ([d403a1f](https://github.com/lumen-oss/rocks.nvim/commit/d403a1fb9cf0b815bf4b3c5664469f1d5617345c))
+
+
+### Bug Fixes
+
+* **installer:** correct runtimepath in clipboard snippet ([14cd216](https://github.com/lumen-oss/rocks.nvim/commit/14cd21608946d8030eb6d9f321ff3887fbf2cfce))
+
 ## [2.46.1](https://github.com/lumen-oss/rocks.nvim/compare/v2.46.0...v2.46.1) (2025-09-15)
 
 
