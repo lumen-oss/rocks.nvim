@@ -156,9 +156,12 @@ RocksOpts                                                            *RocksOpts*
                                                                           Whether to re-generate plugins help pages after installation/upgrade. (Default: `true`).
         {update_remote_plugins?}          (boolean)
                                                                           Whether to update remote plugins after installation/upgrade. (Default: `true`).
-        {auto_sync?}                      (boolean)
+        {auto_sync?}                      (boolean|"disable")
                                                                           Whether to auto-sync if plugins cannot be found on startup. (Default: `false`).
-                                                                          If unset, rocks.nvim will prompt to sync.
+
+                                                                          - `false` or unset: Prompt before syncing (default).
+                                                                          - `true`: Sync automatically without prompting.
+                                                                          - `'disable'` Do not prompt and do not sync plugins.
         {reinstall_dev_rocks_on_update?}  (boolean)
                                                                           Whether to reinstall 'dev' rocks on update
                                                                           (Default: `true`, as rocks.nvim cannot determine if 'dev' rocks are up to date).
