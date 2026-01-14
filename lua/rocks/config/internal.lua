@@ -29,6 +29,9 @@ local default_rocks_path = vim.fs.joinpath(vim.fn.stdpath("data") --[[@as string
 ---@param rocks_path string
 ---@return string
 local function get_default_luarocks_binary(rocks_path)
+    if vim.uv.os_uname().sysname:lower():find("windows") then
+        return vim.fn.executable("luarocks.exe") == 1 and "luarocks.exe" or "luarocks"
+    end
     -- NOTE: On Windows, the binary installed with the luarocks rock is luarocks.bat,
     -- but that doesn't seem to work with vim.system.
     local luarocks_glob =
