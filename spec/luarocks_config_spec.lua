@@ -1,7 +1,5 @@
 local nio = require("nio")
 
-vim.env.PLENARY_TEST_TIMEOUT = 60000
-
 describe("luarocks config", function()
     nio.tests.it("extra luarocks_config", function()
         local tempdir = vim.fn.tempname()

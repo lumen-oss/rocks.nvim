@@ -4,8 +4,8 @@ vim.g.rocks_nvim = {
     rocks_path = tempdir,
 }
 
+vim.env.PLENARY_TEST_TIMEOUT = 1000 * 60
 local nio = require("nio")
-vim.env.PLENARY_TEST_TIMEOUT = 60000
 local adapter = require("rocks.adapter")
 local config = require("rocks.config.internal")
 local operations = require("rocks.operations")
@@ -24,7 +24,7 @@ describe("rocks.adapter", function()
         adapter.init()
     end)
 
-    nio.tests.it("Can run checkhealth for luarocks plugins", function()
+    nio.tests.it("Can run checkhealth for luarocks plugins #online", function()
         local mock_health = mock({
             check = function(_) end,
         })

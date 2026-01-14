@@ -1,4 +1,3 @@
-vim.env.PLENARY_TEST_TIMEOUT = 60000
 vim.g.rocks_nvim = {
     luarocks_binary = "luarocks",
 }

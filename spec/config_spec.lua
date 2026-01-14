@@ -1,5 +1,3 @@
-vim.env.PLENARY_TEST_TIMEOUT = 60000
-
 local tempdir = vim.fn.tempname()
 vim.g.rocks_nvim = {
     rocks_path = tempdir,

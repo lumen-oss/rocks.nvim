@@ -7,8 +7,8 @@ vim.g.rocks_nvim = {
 local nio = require("nio")
 local fs = require("rocks.fs")
 local config = require("rocks.config.internal")
-vim.env.PLENARY_TEST_TIMEOUT = 60000 * 5
-describe("bulk install", function()
+vim.env.PLENARY_TEST_TIMEOUT = 1000 * 60
+describe("bulk install #online", function()
     setup(function()
         vim.system({ "rm", "-r", tempdir }):wait()
     end)

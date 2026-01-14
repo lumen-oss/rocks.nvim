@@ -6,7 +6,7 @@ vim.g.rocks_nvim = {
     config_path = vim.fs.joinpath(tempdir, "rocks.toml"),
 }
 local nio = require("nio")
-vim.env.PLENARY_TEST_TIMEOUT = 60000
+vim.env.PLENARY_TEST_TIMEOUT = 1000 * 60
 describe("operations.helpers", function()
     setup(function()
         vim.system({ "rm", "-r", tempdir }):wait()
@@ -16,7 +16,7 @@ describe("operations.helpers", function()
     local config = require("rocks.config.internal")
     local state = require("rocks.state")
     vim.system({ "mkdir", "-p", config.rocks_path }):wait()
-    nio.tests.it("install/remove", function()
+    nio.tests.it("install/remove #online", function()
         helpers.install({ name = "plenary.nvim" }).wait()
         ---@diagnostic disable-next-line: missing-fields
         local result = vim.fs.find("plenary", { path = config.rocks_path, type = "directory" })
@@ -54,7 +54,7 @@ describe("operations.helpers", function()
         assert.is_nil(result.baz)
         assert.same("foo 7.0.0 -> 8.0.0", tostring(result.foo))
     end)
-    nio.tests.it("Install rock stub", function()
+    nio.tests.it("Install rock stub #online", function()
         local installed_rocks = state.installed_rocks()
         assert.is_nil(installed_rocks["stub.nvim"])
         helpers.manage_rock_stub({

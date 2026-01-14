@@ -16,8 +16,8 @@ local function parse_config()
     return require("toml_edit").parse(config_file_content)
 end
 
-vim.env.PLENARY_TEST_TIMEOUT = 60000 * 5
-describe("Rocks pin/unpin #online", function()
+vim.env.PLENARY_TEST_TIMEOUT = 6000
+describe("Rocks pin/unpin", function()
     setup(function()
         vim.system({ "rm", "-r", tempdir }):wait()
         vim.system({ "mkdir", "-p", tempdir }):wait()
