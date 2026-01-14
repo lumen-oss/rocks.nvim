@@ -4,32 +4,54 @@
 }: final: prev: let
   lib = final.lib;
   luaPackage-override = luaself: luaprev: {
-    rocks-nvim = luaself.callPackage ({
-      luaOlder,
-      buildLuarocksPackage,
-      lua,
-      luarocks,
-      toml-edit,
-      fidget-nvim,
-      nvim-nio,
-      fzy,
-      rtp-nvim,
-    }:
-      buildLuarocksPackage {
-        pname = name;
-        version = "scm-1";
-        knownRockspec = "${self}/rocks.nvim-scm-1.rockspec";
-        src = self;
-        disabled = luaOlder "5.1";
-        propagatedBuildInputs = [
-          luarocks
-          toml-edit
-          fidget-nvim
-          nvim-nio
-          fzy
-          rtp-nvim
-        ];
-      }) {};
+    rocks-nvim = (luaself.callPackage
+      ({
+        luaOlder,
+        buildLuarocksPackage,
+        lua,
+        luarocks,
+        toml-edit,
+        fidget-nvim,
+        nvim-nio,
+        fzy,
+        rtp-nvim,
+      }:
+        buildLuarocksPackage {
+          pname = name;
+          version = "scm-1";
+          knownRockspec = "${self}/rocks.nvim-scm-1.rockspec";
+          src = self;
+          disabled = luaOlder "5.1";
+          propagatedBuildInputs = [
+            luarocks
+            toml-edit
+            fidget-nvim
+            nvim-nio
+            fzy
+            rtp-nvim
+          ];
+        }) {}).overrideAttrs (oa: {
+      doCheck = true;
+
+      nvimSkipModules = [
+        "bootstrap" # tries to install luarocks from network
+      ];
+
+      nativeCheckInputs = with luaself; [
+        nlua
+        busted
+      ];
+
+      preCheck = ''
+        export HOME=$NIX_BUILD_TOP/home
+      '';
+
+      checkPhase = ''
+        runHook preCheck
+        busted --run=offline
+        runHook postCheck
+      '';
+    });
   };
   lua5_1 = prev.lua5_1.override {
     packageOverrides = luaPackage-override;

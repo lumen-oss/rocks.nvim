@@ -161,6 +161,7 @@ end
 --- so that colorschemes are available before rocks.nvim
 --- has initialised.
 local function init_site_symlinks_async()
+    nio.scheduler() -- In tests, this can lead to a vimscript function being invoked by nvim-nio
     local state = require("rocks.state")
     vim
         .iter(state.installed_rocks())

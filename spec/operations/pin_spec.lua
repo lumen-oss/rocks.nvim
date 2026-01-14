@@ -4,7 +4,7 @@ vim.g.rocks_nvim = {
     rocks_path = tempdir,
     config_path = vim.fs.joinpath(tempdir, "rocks.toml"),
 }
-vim.env.PLENARY_TEST_TIMEOUT = 60000 * 5
+vim.env.PLENARY_TEST_TIMEOUT = 1000 * 60
 describe("install/pin/update #online", function()
     local nio = require("nio")
     local operations = require("rocks.operations")

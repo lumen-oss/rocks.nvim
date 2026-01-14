@@ -5,7 +5,7 @@ vim.g.rocks_nvim = {
     config_path = vim.fs.joinpath(tempdir, "rocks.toml"),
 }
 local nio = require("nio")
-vim.env.PLENARY_TEST_TIMEOUT = 60000 * 5
+vim.env.PLENARY_TEST_TIMEOUT = 1000 * 60
 describe("install/update #online", function()
     local operations = require("rocks.operations")
     local state = require("rocks.state")
@@ -16,6 +16,7 @@ describe("install/update #online", function()
     end)
 
     nio.tests.it("install and update rocks", function()
+        local pkg_name = "nlua"
         local autocmd_future = nio.control.future()
         vim.api.nvim_create_autocmd("User", {
             pattern = "RocksInstallPost",
@@ -26,26 +27,26 @@ describe("install/update #online", function()
             end,
         })
         local future = nio.control.future()
-        operations.add({ "Neorg", "7.0.0" }, {
+        operations.add({ "nlua", "0.1.0" }, {
             callback = function() -- ensure lower case
                 future.set(true)
             end,
         })
         future.wait()
-        local neorg_expected = {
-            name = "neorg",
-            version = "7.0.0",
+        local pkg_expected = {
+            name = "nlua",
+            version = "0.1.0",
         }
         local installed_rocks = state.installed_rocks()
-        assert.same(neorg_expected, installed_rocks.neorg)
+        assert.same(pkg_expected, installed_rocks[pkg_name])
         local data = autocmd_future.wait()
-        assert.same(neorg_expected, data.installed)
-        assert.same(neorg_expected, data.spec)
+        assert.same(pkg_expected, data.installed)
+        assert.same(pkg_expected, data.spec)
         local user_rocks = require("rocks.config.internal").get_user_rocks()
         assert.same({
-            name = "neorg",
-            version = "7.0.0",
-        }, user_rocks.neorg)
+            name = "nlua",
+            version = "0.1.0",
+        }, user_rocks[pkg_name])
         future = nio.control.future()
         operations.update(function()
             future.set(true)
@@ -54,9 +55,9 @@ describe("install/update #online", function()
         })
         future.wait()
         installed_rocks = state.installed_rocks()
-        local updated_version = vim.version.parse(installed_rocks.neorg.version)
-        assert.True(updated_version > vim.version.parse("7.0.0"))
+        local updated_version = vim.version.parse(installed_rocks[pkg_name].version)
+        assert.True(updated_version > vim.version.parse("0.1.0"))
         user_rocks = require("rocks.config.internal").get_user_rocks()
-        assert.True(vim.version.parse(user_rocks.neorg.version) > vim.version.parse("7.0.0"))
+        assert.True(vim.version.parse(user_rocks[pkg_name].version) > vim.version.parse("0.1.0"))
     end)
 end)
