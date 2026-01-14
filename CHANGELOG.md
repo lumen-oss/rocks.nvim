@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.47.1](https://github.com/lumen-oss/rocks.nvim/compare/v2.47.0...v2.47.1) (2026-01-14)
+
+
+### Bug Fixes
+
+* **nix:** make sure tests can run in checkPhase ([#692](https://github.com/lumen-oss/rocks.nvim/issues/692)) ([a55e3ac](https://github.com/lumen-oss/rocks.nvim/commit/a55e3acd0eef675d8d77e5fab931d35b95d5b517))
+
 ## [2.47.0](https://github.com/lumen-oss/rocks.nvim/compare/v2.46.1...v2.47.0) (2026-01-04)
 
 
