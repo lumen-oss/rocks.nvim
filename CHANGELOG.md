@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.47.2](https://github.com/lumen-oss/rocks.nvim/compare/v2.47.1...v2.47.2) (2026-01-14)
+
+
+### Bug Fixes
+
+* **windows:** default to using `luarocks.exe` if available ([#695](https://github.com/lumen-oss/rocks.nvim/issues/695)) ([6384796](https://github.com/lumen-oss/rocks.nvim/commit/63847960a9c625bcb77a87929a944f9532b78d30))
+
 ## [2.47.1](https://github.com/lumen-oss/rocks.nvim/compare/v2.47.0...v2.47.1) (2026-01-14)
 
 
