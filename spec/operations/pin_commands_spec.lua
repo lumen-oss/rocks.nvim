@@ -21,6 +21,11 @@ describe("Rocks pin/unpin", function()
     setup(function()
         vim.system({ "rm", "-r", tempdir }):wait()
         vim.system({ "mkdir", "-p", tempdir }):wait()
+        -- initialise empty rocks.toml to ensure rocks.nvim doesn't initialise
+        -- it with the default, which includes rocks.nvim in the plugins list.
+        local fh = assert(io.open(config.config_path, "w"), "Could not open rocks.toml for writing")
+        fh:write("")
+        fh:close()
     end)
 
     nio.tests.it("pin/unpin plugin with only version", function()
