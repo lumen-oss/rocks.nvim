@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.47.4](https://github.com/lumen-oss/rocks.nvim/compare/v2.47.3...v2.47.4) (2026-02-04)
+
+
+### Bug Fixes
+
+* **nixpkgs:** ensure offline tests work on all architectures ([02027e4](https://github.com/lumen-oss/rocks.nvim/commit/02027e4630d60c8ed036b7923c680e147104535b))
+
 ## [2.47.3](https://github.com/lumen-oss/rocks.nvim/compare/v2.47.2...v2.47.3) (2026-02-04)
 
 
