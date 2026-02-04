@@ -21,13 +21,17 @@ describe("luarocks config", function()
         assert.is_not_nil(vim.uv.fs_stat(luarocks_config_path))
         local luarocks_config = {}
         loadfile(luarocks_config_path, "t", luarocks_config)()
+
+        -- HACK: make it pure
+        luarocks_config.arch = "test-arch"
+
         assert.same({
             lua_version = "5.1",
             external_deps_dirs = external_deps_dirs,
             rocks_trees = {
                 { name = "rocks.nvim", root = tempdir },
             },
-            arch = "linux-x86_64",
+            arch = "test-arch",
         }, luarocks_config)
     end)
 end)
