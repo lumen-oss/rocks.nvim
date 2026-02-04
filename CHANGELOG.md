@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.47.3](https://github.com/lumen-oss/rocks.nvim/compare/v2.47.2...v2.47.3) (2026-02-04)
+
+
+### Bug Fixes
+
+* **nixpkgs:** flaky test causing build failure ([8005112](https://github.com/lumen-oss/rocks.nvim/commit/80051120a4b638f7fc19888caa9f67a10f0cf3b3))
+
 ## [2.47.2](https://github.com/lumen-oss/rocks.nvim/compare/v2.47.1...v2.47.2) (2026-01-14)
 
 
