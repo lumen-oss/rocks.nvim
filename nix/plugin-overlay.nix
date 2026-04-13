@@ -83,7 +83,7 @@ in {
       viAlias = false;
       vimAlias = false;
       plugins = [
-        final.vimPlugins.rocks-nvim
+        (final.vimPlugins.rocks-nvim.overrideAttrs {doCheck = false;})
       ];
     };
     rocks = luajitPackages.rocks-nvim;
