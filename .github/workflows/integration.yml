@@ -50,7 +50,7 @@ jobs:
           nvim -u .github/resources/init-integration.lua -l .github/resources/install-colorscheme.lua +q
           ls rocks
           # Will fail if rocks.log does not exist
-          nvim --headless -u NONE "+lua print(table.concat(vim.fn.readfile(vim.fs.joinpath(vim.fn.stdpath('state'), 'rocks.log')), '\n'))" +q
+          nvim --headless -u NONE "+lua print(table.concat(vim.fn.readfile(vim.fs.joinpath(vim.fn.stdpath('log'), 'rocks.log')), '\n'))" +q
           echo "vim.cmd.colorscheme('sweetie')" >> .github/resources/init-integration.lua
           echo "vim.cmd.e('success')" >> .github/resources/init-integration.lua
           nvim -u .github/resources/init-integration.lua -c 'set noswapfile' +wq
