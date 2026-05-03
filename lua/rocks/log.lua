@@ -44,7 +44,7 @@ end
 ---@package
 ---@return string filepath
 function log.get_logfile()
-    return vim.fs.joinpath(require("rocks.config.internal").rocks_path, "rocks.log")
+    return vim.fs.joinpath(vim.fn.stdpath("log"), "rocks.log")
 end
 
 ---Open the rocks.nvim log file.
