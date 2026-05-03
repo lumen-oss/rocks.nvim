@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.48.0](https://github.com/lumen-oss/rocks.nvim/compare/v2.47.5...v2.48.0) (2026-05-03)
+
+
+### Features
+
+* change log folder so one can use :log from nightly ([#716](https://github.com/lumen-oss/rocks.nvim/issues/716)) ([892d40b](https://github.com/lumen-oss/rocks.nvim/commit/892d40b46a5bebac8aec1d9bb1a7c3a56a4e622f))
+
 ## [2.47.5](https://github.com/lumen-oss/rocks.nvim/compare/v2.47.4...v2.47.5) (2026-04-13)
 
 
