@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.47.5](https://github.com/lumen-oss/rocks.nvim/compare/v2.47.4...v2.47.5) (2026-04-13)
+
+
+### Bug Fixes
+
+* adapt to breaking luarocks change in package search ([#712](https://github.com/lumen-oss/rocks.nvim/issues/712)) ([69f5298](https://github.com/lumen-oss/rocks.nvim/commit/69f5298b4346bd73117916d47c8ef919d3e8838a))
+
 ## [2.47.4](https://github.com/lumen-oss/rocks.nvim/compare/v2.47.3...v2.47.4) (2026-02-04)
 
 

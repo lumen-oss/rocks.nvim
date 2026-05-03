@@ -114,23 +114,30 @@ luarocks.search_all = nio.create(function(callback, opts)
     ---@cast rocks_table { [string]: Rock }
     local future = nio.control.future()
     local cmd = { "search", "--porcelain", "--all" }
-    if opts and opts.dev then
-        table.insert(cmd, "--dev")
-    end
+    local servers = opts and opts.servers or config.get_all_servers()
     luarocks.cli(cmd, function(obj)
         ---@cast obj vim.SystemCompleted
         future.set(obj)
     end, {
         text = true,
-        servers = opts and opts.servers or config.get_all_servers(),
+        servers = servers,
     })
     ---@type vim.SystemCompleted
-    local obj = future.wait()
-    local result = obj.stdout
-    if obj.code ~= 0 or not result then
-        callback(vim.empty_dict())
-        return
+    local sc = future.wait()
+    local result = sc.stdout or ""
+    if opts and opts.dev then
+        table.insert(cmd, "--dev")
+        future = nio.control.future()
+        luarocks.cli(cmd, function(obj)
+            ---@cast obj vim.SystemCompleted
+            future.set(obj)
+        end, {
+            text = true,
+            servers = servers,
+        })
     end
+    sc = future.wait()
+    result = result .. "\n" .. (sc.stdout or "")
     for name, version in result:gmatch("(%S+)%s+(%S+)%s+[^\n]+") do
         if name ~= "lua" then
             local rock_list = rocks_table[name] or vim.empty_dict()

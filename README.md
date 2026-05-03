@@ -52,7 +52,7 @@
     for automatic tree-sitter parser management.
   - And [more...](https://github.com/topics/rocks-nvim)
 - Command completions for plugins and versions on luarocks.org.
-- Binary rocks pulled from [rocks-binaries](https://lumen-oss/rocks-binaries/)
+- Binary rocks pulled from [rocks-binaries](https://lumen-oss.github.io/rocks-binaries/)
   so you don't have to compile them.
 
 ![demo](https://github.com/lumen-oss/rocks.nvim/assets/12857160/ce678546-76a7-4fdc-b822-e43d51652681)
@@ -128,7 +128,7 @@ for luarocks, ensuring a seamless and efficient user experience.
 [^2]: We only upload parsers which we can install in the NURR CI
       (tested on Linux).
 
-When installing, rocks.nvim will also search our [rocks-binaries (dev)](https://lumen-oss/rocks-binaries-dev/)
+When installing, rocks.nvim will also search our [rocks-binaries (dev)](https://lumen-oss.github.io/rocks-binaries-dev/)
 server, which means you don't even need to compile any parsers
 on your machine.
 

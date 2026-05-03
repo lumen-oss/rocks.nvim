@@ -23,11 +23,11 @@ jobs:
       - name: Install MSVC Compiler Toolchain
         uses: ilammy/msvc-dev-cmd@v1
       - name: Install Lua
-        uses: leso-kn/gh-actions-lua@master
+        uses: luarocks/gh-actions-lua@master
         with:
           luaVersion: "5.1"
       - name: Install Luarocks
-        uses: hishamhm/gh-actions-luarocks@master
+        uses: luarocks/gh-actions-luarocks@master
         with:
           luarocksVersion: "3.13.0"
       - name: Install neovim
@@ -50,7 +50,7 @@ jobs:
           nvim -u .github/resources/init-integration.lua -l .github/resources/install-colorscheme.lua +q
           ls rocks
           # Will fail if rocks.log does not exist
-          cat ~/.local/state/nvim/rocks.log
+          nvim --headless -u NONE "+lua print(table.concat(vim.fn.readfile(vim.fs.joinpath(vim.fn.stdpath('state'), 'rocks.log')), '\n'))" +q
           echo "vim.cmd.colorscheme('sweetie')" >> .github/resources/init-integration.lua
           echo "vim.cmd.e('success')" >> .github/resources/init-integration.lua
           nvim -u .github/resources/init-integration.lua -c 'set noswapfile' +wq

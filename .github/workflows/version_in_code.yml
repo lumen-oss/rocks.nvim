@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
   workflow_run:
     workflows: ["Release Please"]
-    branches: [master]
+    branches:
+      - main
     types: 
       - completed
 
@@ -39,4 +40,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           repository: "nvim-neorocks/rocks.nvim"
-          branch: master
+          branch: main
