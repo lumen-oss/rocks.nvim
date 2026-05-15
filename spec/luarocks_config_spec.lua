@@ -28,6 +28,7 @@ describe("luarocks config", function()
         assert.same({
             lua_version = "5.1",
             external_deps_dirs = external_deps_dirs,
+            local_cache = vim.fs.joinpath(vim.fn.stdpath("cache") --[[@as string]], "luarocks"),
             rocks_trees = {
                 { name = "rocks.nvim", root = tempdir },
             },
