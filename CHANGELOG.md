@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.49.0](https://github.com/lumen-oss/rocks.nvim/compare/v2.48.0...v2.49.0) (2026-05-15)
+
+
+### Features
+
+* set default luarocks cache to `stdpath(cache)/luarocks` ([#718](https://github.com/lumen-oss/rocks.nvim/issues/718)) ([026ee42](https://github.com/lumen-oss/rocks.nvim/commit/026ee42a24228b2e7998f08e445f7f0cdd30cf97))
+
 ## [2.48.0](https://github.com/lumen-oss/rocks.nvim/compare/v2.47.5...v2.48.0) (2026-05-03)
 
 
