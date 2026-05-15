@@ -262,6 +262,7 @@ local function mk_luarocks_config()
             },
         },
         arch = arch,
+        local_cache = vim.fs.joinpath(vim.fn.stdpath("cache") --[[@as string]], "luarocks"),
     }
     local luarocks_config = vim.tbl_deep_extend("force", default_luarocks_config, opts.luarocks_config or {})
 
