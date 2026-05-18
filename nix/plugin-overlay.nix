@@ -74,6 +74,8 @@ in {
     // {
       rocks-nvim = final.neovimUtils.buildNeovimPlugin {
         luaAttr = luajitPackages.rocks-nvim;
+
+        passthru.initLua = prev.vimPlugins.rocks-nvim.passthru.initLua;
       };
     };
 
