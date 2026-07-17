@@ -1,89 +1,13 @@
 --- @meta
 
---- Module for Lux operations
---- @class OperationsModule
-local _CLASS_OperationsModule_ = {
-	--- Build a workspace
-	--- @param workspace Workspace Workspace to build
-	--- @param package string | nil Build only this package
-	--- @param config Config Lux config
-	--- @return LocalPackage[]
-	build = function(workspace, package, config) end,
-	--- Distribute a project as a single static binary
-	--- @param project Project Project to compile
-	--- @param tree Tree Install tree
-	--- @param output string Destination path for the compiled binary
-	--- @param config Config Lux config
-	--- @return string #1: the path to the compiled binary
-	dist_bin = function(project, tree, output, config) end,
-	--- Download the RockSpec for a package
-	--- @param package_req string Package to search for, e.g. 'foo' or 'foo >= 1.0.0'
-	--- @param config Config Lux config
-	--- @return DownloadedRockspec
-	download_rockspec = function(package_req, config) end,
-	--- Install one or multiple package(s)
-	--- @param packages table[] List of packages to install
-	--- @param tree Tree Install tree
-	--- @param config Config Lux config
-	--- @return LocalPackage[]
-	install = function(packages, tree, config) end,
-	--- Set the pinned state of a package
-	--- @param package_id string ID of the package to pin
-	--- @param tree Tree Install tree
-	--- @param pin_state boolean The pinned state to set
-	pin = function(package_id, tree, pin_state) end,
-	--- Search for a remote package
-	--- @param query string Package to search for, e.g. 'foo' or 'foo >= 1.0.0'
-	--- @param config Config Lux config
-	--- @return { [string]: string[] }
-	search = function(query, config) end,
-	--- Sync all workspace dependencies
-	--- @param workspace Workspace Workspace to sync
-	--- @param config Config Lux config
-	--- @return table
-	--- @return table
-	--- @return table
-	sync = function(workspace, config) end,
-	--- Sync workspace build dependencies
-	--- @param workspace Workspace Workspace to sync
-	--- @param config Config Lux config
-	--- @return table
-	sync_build_dependencies = function(workspace, config) end,
-	--- Sync workspace dependencies
-	--- @param workspace Workspace Workspace to sync
-	--- @param config Config Lux config
-	--- @return table
-	sync_dependencies = function(workspace, config) end,
-	--- Sync workspace test dependencies
-	--- @param workspace Workspace Workspace to sync
-	--- @param config Config Lux config
-	--- @return table
-	sync_test_dependencies = function(workspace, config) end,
-	--- Uninstall one or multiple package(s)
-	--- @param packages string[] IDs of packages to uninstall
-	--- @param tree Tree | nil Install tree
-	--- @param config Config Lux config
-	uninstall = function(packages, tree, config) end,
-	--- Update installed packages
-	--- @param config Config Lux config
-	--- @return LocalPackage[]
-	update = function(config) end,
-}
-
---- Module for interacting with a Lux workspace
---- @class WorkspaceModule
-local _CLASS_WorkspaceModule_ = {
-	--- Load the current workspace, if in a workspace
-	--- @return Workspace | nil
-	current = function() end,
-	--- Load the workspace in the given directory, if present
-	--- @param path string The workspace root
-	--- @return Workspace | nil
-	new = function(path) end,
-	--- Search for a workspace upwards from the given directory and load it, if present
-	--- @param path string The directory to search upwards from
-	--- @return Workspace | nil
-	new_fuzzy = function(path) end,
+--- Used to specify which platforms a rock can be built for
+--- @class PlatformSupport
+local _CLASS_PlatformSupport_ = {
+	--- Is the given platform supported?
+	--- @param self PlatformSupport
+	--- @param platform unix | windows | win32 | cygwin | macosx | linux | freebsd |
+	--- @return boolean
+	is_supported = function(self, platform) end,
 }
 
 --- The `lux.toml` file for a project.
@@ -104,440 +28,45 @@ local _CLASS_PartialProjectToml_ = {
 	to_remote = function(self, specrev) end,
 }
 
---- RockSpec for a local rock installation, deserialized from a `.rockspec` file
---- @class LocalLuaRockspec
-local _CLASS_LocalLuaRockspec_ = {
-	--- @param self LocalLuaRockspec
-	--- @return BuildSpec
-	build = function(self) end,
-	--- @param self LocalLuaRockspec
-	--- @return LuaDependencySpec[]
-	build_dependencies = function(self) end,
-	--- @param self LocalLuaRockspec
-	--- @return LuaDependencySpec[]
-	dependencies = function(self) end,
-	--- @param self LocalLuaRockspec
-	--- @return RockDescription
-	description = function(self) end,
-	--- @param self LocalLuaRockspec
-	--- @return { [string]: table }
-	external_dependencies = function(self) end,
-	--- @param self LocalLuaRockspec
-	--- @return string | nil
-	format = function(self) end,
-	--- @param self LocalLuaRockspec
+--- Lux project, with methods for managing dependencies, etc.
+--- @class Project
+local _CLASS_Project_ = {
+	--- @param self Project
+	--- @param deps table Dependencies to add
+	--- @param config Config Lux config
+	add = function(self, deps, config) end,
+	--- @param self Project
+	--- @return PartialLuaRockspec | nil
+	extra_rockspec = function(self) end,
+	--- @param self Project
 	--- @return string
-	lua = function(self) end,
-	--- @param self LocalLuaRockspec
+	extra_rockspec_path = function(self) end,
+	--- @param self Project
+	--- @return LocalLuaRockspec
+	local_rockspec = function(self) end,
+	--- @param self Project
+	--- @param config Config Lux config
 	--- @return string
-	package = function(self) end,
-	--- @param self LocalLuaRockspec
-	--- @return RemoteRockSource
-	source = function(self) end,
-	--- @param self LocalLuaRockspec
-	--- @return PlatformSupport
-	supported_platforms = function(self) end,
-	--- @param self LocalLuaRockspec
-	--- @return table
-	test = function(self) end,
-	--- @param self LocalLuaRockspec
-	--- @return LuaDependencySpec[]
-	test_dependencies = function(self) end,
-	--- @param self LocalLuaRockspec
-	--- @return string
-	to_lua_rockspec_string = function(self) end,
-	--- @param self LocalLuaRockspec
-	--- @return string
-	version = function(self) end,
-}
-
---- A rock's metadata, to be displayed on the remote package server
---- @class RockDescription
-local _CLASS_RockDescription_ = {
-	--- A longer description of the package
-	--- @param self RockDescription
-	--- @return string | nil
-	detailed = function(self) end,
-	--- An URL for the project. This is not the URL for the tarball, but the address of a website
-	--- @param self RockDescription
-	--- @return string | nil
-	homepage = function(self) end,
-	--- An URL for the project's issue tracker
-	--- @param self RockDescription
-	--- @return string | nil
-	issues_url = function(self) end,
-	--- A list of short strings that specify labels for categorization of this rock
-	--- @param self RockDescription
+	lua_version = function(self, config) end,
+	--- @param self Project
 	--- @return string[]
-	labels = function(self) end,
-	--- The license used by the package
-	--- @param self RockDescription
-	--- @return string | nil
-	license = function(self) end,
-	--- Contact information for the rockspec maintainer
-	--- @param self RockDescription
-	--- @return string | nil
-	maintainer = function(self) end,
-	--- A one-line description of the package
-	--- @param self RockDescription
-	--- @return string | nil
-	summary = function(self) end,
-}
-
---- Rockspec and source integrities of an installed rock
---- @class LocalPackageHashes
-local _CLASS_LocalPackageHashes_ = {
-	--- @param self LocalPackageHashes
-	--- @return string
-	rockspec = function(self) end,
-	--- @param self LocalPackageHashes
-	--- @return string
-	source = function(self) end,
-}
-
---- The `lux.toml`, after being validated and prepared for upload
---- @class RemoteProjectToml
-local _CLASS_RemoteProjectToml_ = {
-	--- @param self RemoteProjectToml
-	--- @return BuildSpec
-	build = function(self) end,
-	--- @param self RemoteProjectToml
-	--- @return LuaDependencySpec[]
-	dependencies = function(self) end,
-	--- @param self RemoteProjectToml
-	--- @return RockDescription
-	description = function(self) end,
-	--- @param self RemoteProjectToml
-	--- @return string
-	package = function(self) end,
-	--- @param self RemoteProjectToml
-	--- @return RemoteRockSource
-	source = function(self) end,
-	--- @param self RemoteProjectToml
+	project_files = function(self) end,
+	--- @param self Project
+	--- @param specrev integer | nil The revision of the RockSpec
 	--- @return RemoteLuaRockspec
-	to_lua_rockspec = function(self) end,
-	--- @param self RemoteProjectToml
-	--- @return string
-	to_lua_rockspec_string = function(self) end,
-	--- @param self RemoteProjectToml
-	--- @return string
-	version = function(self) end,
-}
-
---- A collection of files where installed rocks are located
---- @class Tree
-local _CLASS_Tree_ = {
-	--- Where wrapped package binaries are installed
-	--- @param self Tree
-	--- @return string
-	bin = function(self) end,
-	--- Create a `LockfileReadOnly` for this tree.
-	--- @param self Tree
-	--- @return LockfileReadOnly
-	lockfile = function(self) end,
-	--- Find installed rocks that match the given `PackageReq`
-	--- @param self Tree
-	--- @param req PackageReq
-	--- @return any
-	match_rocks = function(self, req) end,
-	--- Get the `RockLayout` for an installed package.
-	--- @param self Tree
-	--- @param package LocalPackage
-	--- @return RockLayout
-	rock_layout = function(self, package) end,
-	--- The root directory of the tree
-	--- @param self Tree
+	remote_rockspec = function(self, specrev) end,
+	--- @param self Project
+	--- @param deps table Dependencies to remove
+	remove = function(self, deps) end,
+	--- @param self Project
 	--- @return string
 	root = function(self) end,
-	--- The root directory of a package in this tree
-	--- @param self Tree
-	--- @param package LocalPackage
+	--- @param self Project
+	--- @return PartialProjectToml
+	toml = function(self) end,
+	--- @param self Project
 	--- @return string
-	root_for = function(self, package) end,
-}
-
---- Specification for a Lua dependency in a Lux project
---- @class LuaDependencySpec
-local _CLASS_LuaDependencySpec_ = {
-	--- Evaluate whether the given package satisfies this dependency's requirement.
-	--- @param self LuaDependencySpec
-	--- @param package PackageSpec package spec to check
-	--- @return boolean
-	matches = function(self, package) end,
-	--- @param self LuaDependencySpec
-	--- @return string
-	name = function(self) end,
-	--- @param self LuaDependencySpec
-	--- @return PackageReq
-	package_req = function(self) end,
-	--- @param self LuaDependencySpec
-	--- @return string
-	version_req = function(self) end,
-}
-
---- The resolved configuration for a Lux session.
---- Can be constructed via `ConfigBuilder`, which supports layering multiple
---- configuration sources (config file, CLI flags, environment variables)
----
---- @class Config
-local _CLASS_Config_ = {
-	--- @return ConfigBuilder
-	builder = function() end,
-	--- The Lux cache directory
-	--- @param self Config
-	--- @return string
-	cache_dir = function(self) end,
-	--- Command to use for running `cmake` builds
-	--- @param self Config
-	--- @return string
-	cmake_cmd = function(self) end,
-	--- The Lux data directory
-	--- @param self Config
-	--- @return string
-	data_dir = function(self) end,
-	--- Enabled luarocks repository servers that provide dev/scm rocks
-	--- @param self Config
-	--- @return string[]
-	enabled_dev_servers = function(self) end,
-	--- The rock layout for entrypoints of new install trees.
-	--- Does not affect existing install trees or dependency rock layouts.
-	--- @param self Config
-	--- @return RockLayoutConfig
-	entrypoint_layout = function(self) end,
-	--- Additional luarocks repository servers
-	--- @param self Config
-	--- @return string[]
-	extra_servers = function(self) end,
-	--- The directory in which to install Lua{n} if not found
-	--- @param self Config
-	--- @return string | nil
-	lua_dir = function(self) end,
-	--- Command to use for running `make` builds
-	--- @param self Config
-	--- @return string
-	make_cmd = function(self) end,
-	--- The luarocks server namespace to use
-	--- @param self Config
-	--- @return string | nil
-	namespace = function(self) end,
-	--- Whether to disable printing progress bars and spinners
-	--- @param self Config
-	--- @return boolean
-	no_progress = function(self) end,
-	--- Whether to skip prompts, selecting the default option
-	--- @param self Config
-	--- @return boolean
-	no_prompt = function(self) end,
-	--- The luarocks repository server
-	--- @param self Config
-	--- @return string
-	server = function(self) end,
-	--- Timeout on network operations, in seconds.
-	--- 0 means no timeout (wait forever).
-	--- @param self Config
-	--- @return integer
-	timeout = function(self) end,
-	--- The tree in which to install rocks.
-	--- If installing packages for a project, use `project:tree(config)` instead
-	--- @param self Config
-	--- @param lua_version '5.1' | '5.2' | '5.3' | '5.4' | '5.5' | 'jit' | 'jit52'
-	--- @return Tree
-	user_tree = function(self, lua_version) end,
-	--- Variable names, mapped to their values.
-	--- Lux populates variables in the `lux.toml` and in RockSpecs
-	--- with these before building.
-	--- @param self Config
-	--- @return { [string]: string }
-	variables = function(self) end,
-	--- Whether to display verbose output of commands executed
-	--- @param self Config
-	--- @return boolean
-	verbose = function(self) end,
-}
-
---- Used to specify which platforms a rock can be built for
---- @class PlatformSupport
-local _CLASS_PlatformSupport_ = {
-	--- Is the given platform supported?
-	--- @param self PlatformSupport
-	--- @param platform unix | windows | win32 | cygwin | macosx | linux | freebsd |
-	--- @return boolean
-	is_supported = function(self, platform) end,
-}
-
---- Specification for building a rock with the `make` build backend
---- @class MakeBuildSpec
-local _CLASS_MakeBuildSpec_ = {
-	--- Whether to perform a make pass on the target indicated by `build_target`
-	--- @param self MakeBuildSpec
-	--- @return boolean
-	build_pass = function(self) end,
-	--- @param self MakeBuildSpec
-	--- @return string | nil
-	build_target = function(self) end,
-	--- Assignments to be passed to make during the build pass
-	--- @param self MakeBuildSpec
-	--- @return { [string]: string }
-	build_variables = function(self) end,
-	--- Whether to perform a make pass on the target indicated by `install_target`
-	--- @param self MakeBuildSpec
-	--- @return boolean
-	install_pass = function(self) end,
-	--- @param self MakeBuildSpec
-	--- @return string
-	install_target = function(self) end,
-	--- Assignments to be passed to make during the install pass
-	--- @param self MakeBuildSpec
-	--- @return { [string]: string }
-	install_variables = function(self) end,
-	--- Makefile to be used
-	--- @param self MakeBuildSpec
-	--- @return string
-	makefile = function(self) end,
-	--- Assignments to be passed to make during both passes
-	--- @param self MakeBuildSpec
-	--- @return { [string]: string }
-	variables = function(self) end,
-}
-
---- Specification for running a test suite with a Lua script
---- @class LuaScriptTestSpec
-local _CLASS_LuaScriptTestSpec_ = {
-	--- Additional CLI flags to pass to the script when running
-	--- @param self LuaScriptTestSpec
-	--- @return string[]
-	flags = function(self) end,
-	--- The script to run
-	--- @param self LuaScriptTestSpec
-	--- @return string
-	script = function(self) end,
-}
-
---- Specification for building a Lua module from various sources
---- @class ModulePaths
-local _CLASS_ModulePaths_ = {
-	--- C defines, e.g. { 'FOO=bar', 'USE_BLA' }
-	--- @param self ModulePaths
-	--- @return { [string]: string | nil }
-	defines = function(self) end,
-	--- Directories to be added to the compiler's headers lookup directory list.
-	--- @param self ModulePaths
-	--- @return string[]
-	incdirs = function(self) end,
-	--- Directories to be added to the linker's library lookup directory list.
-	--- @param self ModulePaths
-	--- @return string[]
-	libdirs = function(self) end,
-	--- External libraries to be linked
-	--- @param self ModulePaths
-	--- @return string[]
-	libraries = function(self) end,
-	--- Path names of C sources, mandatory field
-	--- @param self ModulePaths
-	--- @return string[]
-	sources = function(self) end,
-}
-
---- Specification for building a rock with the `command` build backend
---- @class CommandBuildSpec
-local _CLASS_CommandBuildSpec_ = {
-	--- @param self CommandBuildSpec
-	--- @return string | nil
-	build_command = function(self) end,
-	--- @param self CommandBuildSpec
-	--- @return string | nil
-	install_command = function(self) end,
-}
-
---- RockSpec for a remote rock, deserialized from a `.rockspec` file
---- @class RemoteLuaRockspec
-local _CLASS_RemoteLuaRockspec_ = {
-	--- @param self RemoteLuaRockspec
-	--- @return BuildSpec
-	build = function(self) end,
-	--- @param self RemoteLuaRockspec
-	--- @return LuaDependencySpec[]
-	build_dependencies = function(self) end,
-	--- @param self RemoteLuaRockspec
-	--- @return LuaDependencySpec[]
-	dependencies = function(self) end,
-	--- @param self RemoteLuaRockspec
-	--- @return RockDescription
-	description = function(self) end,
-	--- @param self RemoteLuaRockspec
-	--- @return { [string]: table }
-	external_dependencies = function(self) end,
-	--- @param self RemoteLuaRockspec
-	--- @return string | nil
-	format = function(self) end,
-	--- @param self RemoteLuaRockspec
-	--- @return string
-	lua = function(self) end,
-	--- @param self RemoteLuaRockspec
-	--- @return string
-	package = function(self) end,
-	--- @param self RemoteLuaRockspec
-	--- @return RemoteRockSource
-	source = function(self) end,
-	--- @param self RemoteLuaRockspec
-	--- @return PlatformSupport
-	supported_platforms = function(self) end,
-	--- @param self RemoteLuaRockspec
-	--- @return table
-	test = function(self) end,
-	--- @param self RemoteLuaRockspec
-	--- @return LuaDependencySpec[]
-	test_dependencies = function(self) end,
-	--- @param self RemoteLuaRockspec
-	--- @return string
-	to_lua_rockspec_string = function(self) end,
-	--- @param self RemoteLuaRockspec
-	--- @return string
-	version = function(self) end,
-}
-
---- Package database, used to look up remote rocks
---- @class RemotePackageDB
-local _CLASS_RemotePackageDB_ = {
-	--- Find the latest package that matches the requirement.
-	--- @param self RemotePackageDB
-	--- @param package_req PackageReq Package to search for, e.g. 'foo' or 'foo >= 1.0.0'
-	--- @return PackageSpec | nil
-	latest_match = function(self, package_req) end,
-	--- Search for all packages that match the requirement
-	--- @param self RemotePackageDB
-	--- @param package_req PackageReq Package to search for, e.g. 'foo' or 'foo >= 1.0.0'
-	--- @return { [string]: string[] }
-	search = function(self, package_req) end,
-}
-
---- Change-agnostic way of referencing various paths for a rock
---- @class RockLayout
---- @field bin string
---- @field conf string
---- @field doc string
---- @field etc string
---- @field lib string
---- @field rock_path string
---- @field src string
-
---- Specifies a source to be fetched from a git forge
---- @class GitSource
-local _CLASS_GitSource_ = {
-	--- @param self GitSource
-	--- @return string | nil
-	checkout_ref = function(self) end,
-	--- @param self GitSource
-	--- @return string
-	url = function(self) end,
-}
-
---- Remote Lua RockSpec that has been downloaded from a remote server, along with its source metadata
---- @class DownloadedRockspec
-local _CLASS_DownloadedRockspec_ = {
-	--- @param self DownloadedRockspec
-	--- @return RemoteLuaRockspec
-	rockspec = function(self) end,
+	toml_path = function(self) end,
 }
 
 --- Incrementally builds a `Config` by layering configuration sources.
@@ -639,167 +168,6 @@ local _CLASS_ConfigBuilder_ = {
 	wrap_bin_scripts = function(self, wrap) end,
 }
 
---- Specification for building a rock with the `rust-mlua` build backend
---- @class RustMluaBuildSpec
-local _CLASS_RustMluaBuildSpec_ = {
-	--- Additional flags to be passed in the cargo invocation
-	--- @param self RustMluaBuildSpec
-	--- @return string[]
-	cargo_extra_args = function(self) end,
-	--- If set to `false` pass `--no-default-features` to cargo.
-	--- @param self RustMluaBuildSpec
-	--- @return boolean
-	default_features = function(self) end,
-	--- Pass additional features
-	--- @param self RustMluaBuildSpec
-	--- @return string[]
-	features = function(self) end,
-	--- Copy additional files to the `lua` directory.
-	--- Keys are the sources, values the destinations (relative to the `lua` directory).
-	---
-	--- @param self RustMluaBuildSpec
-	--- @return { [string]: string }
-	include = function(self) end,
-	--- Keys are module names in the format normally used by the `require()` function.
-	--- values are the library names in the target directory (without the `lib` prefix).
-	---
-	--- @param self RustMluaBuildSpec
-	--- @return { [string]: string }
-	modules = function(self) end,
-	--- Set if the cargo `target` directory is not in the source root
-	--- @param self RustMluaBuildSpec
-	--- @return string
-	target_path = function(self) end,
-}
-
---- A locally installed rock
---- @class LocalPackage
-local _CLASS_LocalPackage_ = {
-	--- @param self LocalPackage
-	--- @return string
-	constraint = function(self) end,
-	--- @param self LocalPackage
-	--- @return string[]
-	dependencies = function(self) end,
-	--- @param self LocalPackage
-	--- @return LocalPackageHashes
-	hashes = function(self) end,
-	--- @param self LocalPackage
-	--- @return string
-	id = function(self) end,
-	--- @param self LocalPackage
-	--- @return string
-	name = function(self) end,
-	--- @param self LocalPackage
-	--- @return boolean
-	pinned = function(self) end,
-	--- @param self LocalPackage
-	--- @return PackageSpec
-	to_package = function(self) end,
-	--- @param self LocalPackage
-	--- @return PackageReq
-	to_package_req = function(self) end,
-	--- @param self LocalPackage
-	--- @return string
-	version = function(self) end,
-}
-
---- Specification for building a rock with the `treesitter-parser` build backend
---- @class TreesitterParserBuildSpec
-local _CLASS_TreesitterParserBuildSpec_ = {
-	--- Must the sources be generated?
-	--- @param self TreesitterParserBuildSpec
-	--- @return boolean
-	generate = function(self) end,
-	--- Name of the parser language, e.g. 'haskell'
-	--- @param self TreesitterParserBuildSpec
-	--- @return string
-	lang = function(self) end,
-	--- tree-sitter grammar's location (relative to the source root)
-	--- @param self TreesitterParserBuildSpec
-	--- @return string | nil
-	location = function(self) end,
-	--- Won't build the parser if `false`
-	--- @param self TreesitterParserBuildSpec
-	--- @return boolean
-	parser = function(self) end,
-	--- Embedded queries to be installed in the `etc/queries` directory
-	--- @param self TreesitterParserBuildSpec
-	--- @return { [string]: string }
-	queries = function(self) end,
-}
-
---- Specification for a package with an exact name and version
---- @class PackageSpec
---- @field name string
---- @field version string
-local _CLASS_PackageSpec_ = {
-	--- Convert this spec to a package requirement (with an exact version requirement)
-	--- @param self PackageSpec
-	--- @return PackageReq
-	to_package_req = function(self) end,
-}
-
---- Read-only lockfile for an install tree
---- @class LockfileReadOnly
-local _CLASS_LockfileReadOnly_ = {
-	--- @param self LockfileReadOnly
-	--- @param id string
-	--- @return LocalPackage | nil
-	get = function(self, id) end,
-	--- Converts the current lockfile into a writeable one, executes `f` and flushes
-	--- @param self LockfileReadOnly
-	--- @param f fun() Takes the writable lockfile
-	map_then_flush = function(self, f) end,
-	--- @param self LockfileReadOnly
-	--- @return { [string]: LocalPackage }
-	rocks = function(self) end,
-	--- @param self LockfileReadOnly
-	--- @return string
-	version = function(self) end,
-}
-
---- Lux project, with methods for managing dependencies, etc.
---- @class Project
-local _CLASS_Project_ = {
-	--- @param self Project
-	--- @param deps table Dependencies to add
-	--- @param config Config Lux config
-	add = function(self, deps, config) end,
-	--- @param self Project
-	--- @return PartialLuaRockspec | nil
-	extra_rockspec = function(self) end,
-	--- @param self Project
-	--- @return string
-	extra_rockspec_path = function(self) end,
-	--- @param self Project
-	--- @return LocalLuaRockspec
-	local_rockspec = function(self) end,
-	--- @param self Project
-	--- @param config Config Lux config
-	--- @return string
-	lua_version = function(self, config) end,
-	--- @param self Project
-	--- @return string[]
-	project_files = function(self) end,
-	--- @param self Project
-	--- @param specrev integer | nil The revision of the RockSpec
-	--- @return RemoteLuaRockspec
-	remote_rockspec = function(self, specrev) end,
-	--- @param self Project
-	--- @param deps table Dependencies to remove
-	remove = function(self, deps) end,
-	--- @param self Project
-	--- @return string
-	root = function(self) end,
-	--- @param self Project
-	--- @return PartialProjectToml
-	toml = function(self) end,
-	--- @param self Project
-	--- @return string
-	toml_path = function(self) end,
-}
-
 --- Specification for running a test suite with busted
 --- @class BustedTestSpec
 local _CLASS_BustedTestSpec_ = {
@@ -809,46 +177,40 @@ local _CLASS_BustedTestSpec_ = {
 	flags = function(self) end,
 }
 
---- Flushes a lockfile automatically when it goes out of scope
---- @class LockfileGuard
-local _CLASS_LockfileGuard_ = {
-	--- @param self LockfileGuard
-	--- @param id string
-	--- @return LocalPackage | nil
-	get = function(self, id) end,
-	--- @param self LockfileGuard
-	--- @return { [string]: LocalPackage }
-	rocks = function(self) end,
-	--- @param self LockfileGuard
-	--- @return string
-	version = function(self) end,
+--- The build specification for a given rock, serialized from `build = { ... }`.
+--- @class BuildSpec
+local _CLASS_BuildSpec_ = {
+	--- Determines the build backend to use
+	--- @param self BuildSpec
+	--- @return table | nil
+	build_backend = function(self) end,
+	--- A list of directories that should be copied as-is into the resulting rock
+	--- @param self BuildSpec
+	--- @return string[]
+	copy_directories = function(self) end,
+	--- A set of instructions on how/where to copy files from the project
+	--- @param self BuildSpec
+	--- @return InstallSpec
+	install = function(self) end,
+	--- A list of patches to apply to the project before packaging it
+	--- @param self BuildSpec
+	--- @return { [string]: string }
+	patches = function(self) end,
 }
 
---- Template configuration for a rock's tree layout
---- @class RockLayoutConfig
-local _CLASS_RockLayoutConfig_ = {
-	--- Instantiate the default rock layout
-	--- @return RockLayoutConfig
-	new = function() end,
-	--- Instantiate the a rock layout for Neovim plugins
-	--- @return RockLayoutConfig
-	new_nvim_layout = function() end,
-}
-
---- A lua package requirement with a name and an optional version requirement
---- @class PackageReq
-local _CLASS_PackageReq_ = {
-	--- Evaluate whether the given package satisfies this package requirement.
-	--- @param self PackageReq
-	--- @param package PackageSpec package spec to check
-	--- @return boolean
-	matches = function(self, package) end,
-	--- @param self PackageReq
-	--- @return string
-	name = function(self) end,
-	--- @param self PackageReq
-	--- @return string
-	version_req = function(self) end,
+--- Package database, used to look up remote rocks
+--- @class RemotePackageDB
+local _CLASS_RemotePackageDB_ = {
+	--- Find the latest package that matches the requirement.
+	--- @param self RemotePackageDB
+	--- @param package_req PackageReq Package to search for, e.g. 'foo' or 'foo >= 1.0.0'
+	--- @return PackageSpec | nil
+	latest_match = function(self, package_req) end,
+	--- Search for all packages that match the requirement
+	--- @param self RemotePackageDB
+	--- @param package_req PackageReq Package to search for, e.g. 'foo' or 'foo >= 1.0.0'
+	--- @return { [string]: string[] }
+	search = function(self, package_req) end,
 }
 
 --- For packages which don't provide means to install modules
@@ -880,89 +242,130 @@ local _CLASS_InstallSpec_ = {
 	lua = function(self) end,
 }
 
---- Specifies the source of a remote rock to be fetched
---- @class RemoteRockSource
-local _CLASS_RemoteRockSource_ = {
-	--- @param self RemoteRockSource
-	--- @return string | nil
-	archive_name = function(self) end,
-	--- @param self RemoteRockSource
-	--- @return table
-	source_spec = function(self) end,
-	--- @param self RemoteRockSource
-	--- @return string | nil
-	unpack_dir = function(self) end,
-}
-
---- Specification for running a test suite with a command
---- @class CommandTestSpec
-local _CLASS_CommandTestSpec_ = {
-	--- The command to run
-	--- @param self CommandTestSpec
+--- Specification for a Lua dependency in a Lux project
+--- @class LuaDependencySpec
+local _CLASS_LuaDependencySpec_ = {
+	--- Evaluate whether the given package satisfies this dependency's requirement.
+	--- @param self LuaDependencySpec
+	--- @param package PackageSpec package spec to check
+	--- @return boolean
+	matches = function(self, package) end,
+	--- @param self LuaDependencySpec
 	--- @return string
-	command = function(self) end,
-	--- Additional CLI flags to pass to the command when running
-	--- @param self CommandTestSpec
-	--- @return string[]
-	flags = function(self) end,
+	name = function(self) end,
+	--- @param self LuaDependencySpec
+	--- @return PackageReq
+	package_req = function(self) end,
+	--- @param self LuaDependencySpec
+	--- @return string
+	version_req = function(self) end,
 }
 
---- The build specification for a given rock, serialized from `build = { ... }`.
---- @class BuildSpec
-local _CLASS_BuildSpec_ = {
-	--- Determines the build backend to use
-	--- @param self BuildSpec
-	--- @return table | nil
-	build_backend = function(self) end,
-	--- A list of directories that should be copied as-is into the resulting rock
-	--- @param self BuildSpec
+--- Remote Lua RockSpec that has been downloaded from a remote server, along with its source metadata
+--- @class DownloadedRockspec
+local _CLASS_DownloadedRockspec_ = {
+	--- @param self DownloadedRockspec
+	--- @return RemoteLuaRockspec
+	rockspec = function(self) end,
+}
+
+--- The resolved configuration for a Lux session.
+--- Can be constructed via `ConfigBuilder`, which supports layering multiple
+--- configuration sources (config file, CLI flags, environment variables)
+---
+--- @class Config
+local _CLASS_Config_ = {
+	--- @return ConfigBuilder
+	builder = function() end,
+	--- The Lux cache directory
+	--- @param self Config
+	--- @return string
+	cache_dir = function(self) end,
+	--- Command to use for running `cmake` builds
+	--- @param self Config
+	--- @return string
+	cmake_cmd = function(self) end,
+	--- The Lux data directory
+	--- @param self Config
+	--- @return string
+	data_dir = function(self) end,
+	--- Enabled luarocks repository servers that provide dev/scm rocks
+	--- @param self Config
 	--- @return string[]
-	copy_directories = function(self) end,
-	--- A set of instructions on how/where to copy files from the project
-	--- @param self BuildSpec
-	--- @return InstallSpec
-	install = function(self) end,
-	--- A list of patches to apply to the project before packaging it
-	--- @param self BuildSpec
+	enabled_dev_servers = function(self) end,
+	--- The rock layout for entrypoints of new install trees.
+	--- Does not affect existing install trees or dependency rock layouts.
+	--- @param self Config
+	--- @return RockLayoutConfig
+	entrypoint_layout = function(self) end,
+	--- Additional luarocks repository servers
+	--- @param self Config
+	--- @return string[]
+	extra_servers = function(self) end,
+	--- The directory in which to install Lua{n} if not found
+	--- @param self Config
+	--- @return string | nil
+	lua_dir = function(self) end,
+	--- Command to use for running `make` builds
+	--- @param self Config
+	--- @return string
+	make_cmd = function(self) end,
+	--- The luarocks server namespace to use
+	--- @param self Config
+	--- @return string | nil
+	namespace = function(self) end,
+	--- Whether to disable printing progress bars and spinners
+	--- @param self Config
+	--- @return boolean
+	no_progress = function(self) end,
+	--- Whether to skip prompts, selecting the default option
+	--- @param self Config
+	--- @return boolean
+	no_prompt = function(self) end,
+	--- The luarocks repository server
+	--- @param self Config
+	--- @return string
+	server = function(self) end,
+	--- Timeout on network operations, in seconds.
+	--- 0 means no timeout (wait forever).
+	--- @param self Config
+	--- @return integer
+	timeout = function(self) end,
+	--- The tree in which to install rocks.
+	--- If installing packages for a project, use `project:tree(config)` instead
+	--- @param self Config
+	--- @param lua_version '5.1' | '5.2' | '5.3' | '5.4' | '5.5' | 'jit' | 'jit52'
+	--- @return Tree
+	user_tree = function(self, lua_version) end,
+	--- Variable names, mapped to their values.
+	--- Lux populates variables in the `lux.toml` and in RockSpecs
+	--- with these before building.
+	--- @param self Config
 	--- @return { [string]: string }
-	patches = function(self) end,
+	variables = function(self) end,
+	--- Whether to display verbose output of commands executed
+	--- @param self Config
+	--- @return boolean
+	verbose = function(self) end,
 }
 
---- Writable lockfile for an install tree
---- @class LockfileReadWrite
-local _CLASS_LockfileReadWrite_ = {
-	--- @param self LockfileReadWrite
+--- Read-only lockfile for an install tree
+--- @class LockfileReadOnly
+local _CLASS_LockfileReadOnly_ = {
+	--- @param self LockfileReadOnly
 	--- @param id string
 	--- @return LocalPackage | nil
 	get = function(self, id) end,
-	--- @param self LockfileReadWrite
+	--- Converts the current lockfile into a writeable one, executes `f` and flushes
+	--- @param self LockfileReadOnly
+	--- @param f fun() Takes the writable lockfile
+	map_then_flush = function(self, f) end,
+	--- @param self LockfileReadOnly
 	--- @return { [string]: LocalPackage }
 	rocks = function(self) end,
-	--- @param self LockfileReadWrite
+	--- @param self LockfileReadOnly
 	--- @return string
 	version = function(self) end,
-}
-
---- Deserialized from a Lua `.rockspec`, not yet validated
---- @class PartialLuaRockspec
-
---- Specification for building a rock with the `cmake` build backend
---- @class CMakeBuildSpec
-local _CLASS_CMakeBuildSpec_ = {
-	--- Whether to perform a build pass
-	--- @param self CMakeBuildSpec
-	--- @return boolean
-	build_pass = function(self) end,
-	--- @param self CMakeBuildSpec
-	--- @return string | nil
-	cmake_lists_content = function(self) end,
-	--- Whether to perform an install pass
-	--- @param self CMakeBuildSpec
-	--- @return boolean
-	install_pass = function(self) end,
-	--- @param self CMakeBuildSpec
-	--- @return { [string]: string }
-	variables = function(self) end,
 }
 
 --- The `lux.toml` file, after being properly deserialized.
@@ -1003,6 +406,517 @@ local _CLASS_LocalProjectToml_ = {
 	version = function(self) end,
 }
 
+--- Change-agnostic way of referencing various paths for a rock
+--- @class RockLayout
+--- @field bin string
+--- @field conf string
+--- @field doc string
+--- @field etc string
+--- @field lib string
+--- @field rock_path string
+--- @field src string
+
+--- Template configuration for a rock's tree layout
+--- @class RockLayoutConfig
+local _CLASS_RockLayoutConfig_ = {
+	--- Instantiate the default rock layout
+	--- @return RockLayoutConfig
+	new = function() end,
+	--- Instantiate the a rock layout for Neovim plugins
+	--- @return RockLayoutConfig
+	new_nvim_layout = function() end,
+}
+
+--- Specification for building a rock with the `command` build backend
+--- @class CommandBuildSpec
+local _CLASS_CommandBuildSpec_ = {
+	--- @param self CommandBuildSpec
+	--- @return string | nil
+	build_command = function(self) end,
+	--- @param self CommandBuildSpec
+	--- @return string | nil
+	install_command = function(self) end,
+}
+
+--- Specification for building a rock with the `rust-mlua` build backend
+--- @class RustMluaBuildSpec
+local _CLASS_RustMluaBuildSpec_ = {
+	--- Additional flags to be passed in the cargo invocation
+	--- @param self RustMluaBuildSpec
+	--- @return string[]
+	cargo_extra_args = function(self) end,
+	--- If set to `false` pass `--no-default-features` to cargo.
+	--- @param self RustMluaBuildSpec
+	--- @return boolean
+	default_features = function(self) end,
+	--- Pass additional features
+	--- @param self RustMluaBuildSpec
+	--- @return string[]
+	features = function(self) end,
+	--- Copy additional files to the `lua` directory.
+	--- Keys are the sources, values the destinations (relative to the `lua` directory).
+	---
+	--- @param self RustMluaBuildSpec
+	--- @return { [string]: string }
+	include = function(self) end,
+	--- Keys are module names in the format normally used by the `require()` function.
+	--- values are the library names in the target directory (without the `lib` prefix).
+	---
+	--- @param self RustMluaBuildSpec
+	--- @return { [string]: string }
+	modules = function(self) end,
+	--- Set if the cargo `target` directory is not in the source root
+	--- @param self RustMluaBuildSpec
+	--- @return string
+	target_path = function(self) end,
+}
+
+--- Specifies a source to be fetched from a git forge
+--- @class GitSource
+local _CLASS_GitSource_ = {
+	--- @param self GitSource
+	--- @return string | nil
+	checkout_ref = function(self) end,
+	--- @param self GitSource
+	--- @return string
+	url = function(self) end,
+}
+
+--- A lua package requirement with a name and an optional version requirement
+--- @class PackageReq
+local _CLASS_PackageReq_ = {
+	--- Evaluate whether the given package satisfies this package requirement.
+	--- @param self PackageReq
+	--- @param package PackageSpec package spec to check
+	--- @return boolean
+	matches = function(self, package) end,
+	--- @param self PackageReq
+	--- @return string
+	name = function(self) end,
+	--- @param self PackageReq
+	--- @return string
+	version_req = function(self) end,
+}
+
+--- Specifies the source of a remote rock to be fetched
+--- @class RemoteRockSource
+local _CLASS_RemoteRockSource_ = {
+	--- @param self RemoteRockSource
+	--- @return string | nil
+	archive_name = function(self) end,
+	--- @param self RemoteRockSource
+	--- @return table
+	source_spec = function(self) end,
+	--- @param self RemoteRockSource
+	--- @return string | nil
+	unpack_dir = function(self) end,
+}
+
+--- RockSpec for a local rock installation, deserialized from a `.rockspec` file
+--- @class LocalLuaRockspec
+local _CLASS_LocalLuaRockspec_ = {
+	--- @param self LocalLuaRockspec
+	--- @return BuildSpec
+	build = function(self) end,
+	--- @param self LocalLuaRockspec
+	--- @return LuaDependencySpec[]
+	build_dependencies = function(self) end,
+	--- @param self LocalLuaRockspec
+	--- @return LuaDependencySpec[]
+	dependencies = function(self) end,
+	--- @param self LocalLuaRockspec
+	--- @return RockDescription
+	description = function(self) end,
+	--- @param self LocalLuaRockspec
+	--- @return { [string]: table }
+	external_dependencies = function(self) end,
+	--- @param self LocalLuaRockspec
+	--- @return string | nil
+	format = function(self) end,
+	--- @param self LocalLuaRockspec
+	--- @return string
+	lua = function(self) end,
+	--- @param self LocalLuaRockspec
+	--- @return string
+	package = function(self) end,
+	--- @param self LocalLuaRockspec
+	--- @return RemoteRockSource
+	source = function(self) end,
+	--- @param self LocalLuaRockspec
+	--- @return PlatformSupport
+	supported_platforms = function(self) end,
+	--- @param self LocalLuaRockspec
+	--- @return table
+	test = function(self) end,
+	--- @param self LocalLuaRockspec
+	--- @return LuaDependencySpec[]
+	test_dependencies = function(self) end,
+	--- @param self LocalLuaRockspec
+	--- @return string
+	to_lua_rockspec_string = function(self) end,
+	--- @param self LocalLuaRockspec
+	--- @return string
+	version = function(self) end,
+}
+
+--- Specification for a package with an exact name and version
+--- @class PackageSpec
+--- @field name string
+--- @field version string
+local _CLASS_PackageSpec_ = {
+	--- Convert this spec to a package requirement (with an exact version requirement)
+	--- @param self PackageSpec
+	--- @return PackageReq
+	to_package_req = function(self) end,
+}
+
+--- Specification for building a rock with the `cmake` build backend
+--- @class CMakeBuildSpec
+local _CLASS_CMakeBuildSpec_ = {
+	--- Whether to perform a build pass
+	--- @param self CMakeBuildSpec
+	--- @return boolean
+	build_pass = function(self) end,
+	--- @param self CMakeBuildSpec
+	--- @return string | nil
+	cmake_lists_content = function(self) end,
+	--- Whether to perform an install pass
+	--- @param self CMakeBuildSpec
+	--- @return boolean
+	install_pass = function(self) end,
+	--- @param self CMakeBuildSpec
+	--- @return { [string]: string }
+	variables = function(self) end,
+}
+
+--- Specification for running a test suite with a Lua script
+--- @class LuaScriptTestSpec
+local _CLASS_LuaScriptTestSpec_ = {
+	--- Additional CLI flags to pass to the script when running
+	--- @param self LuaScriptTestSpec
+	--- @return string[]
+	flags = function(self) end,
+	--- The script to run
+	--- @param self LuaScriptTestSpec
+	--- @return string
+	script = function(self) end,
+}
+
+--- Deserialized from a Lua `.rockspec`, not yet validated
+--- @class PartialLuaRockspec
+
+--- Specification for building a rock with the `make` build backend
+--- @class MakeBuildSpec
+local _CLASS_MakeBuildSpec_ = {
+	--- Whether to perform a make pass on the target indicated by `build_target`
+	--- @param self MakeBuildSpec
+	--- @return boolean
+	build_pass = function(self) end,
+	--- @param self MakeBuildSpec
+	--- @return string | nil
+	build_target = function(self) end,
+	--- Assignments to be passed to make during the build pass
+	--- @param self MakeBuildSpec
+	--- @return { [string]: string }
+	build_variables = function(self) end,
+	--- Whether to perform a make pass on the target indicated by `install_target`
+	--- @param self MakeBuildSpec
+	--- @return boolean
+	install_pass = function(self) end,
+	--- @param self MakeBuildSpec
+	--- @return string
+	install_target = function(self) end,
+	--- Assignments to be passed to make during the install pass
+	--- @param self MakeBuildSpec
+	--- @return { [string]: string }
+	install_variables = function(self) end,
+	--- Makefile to be used
+	--- @param self MakeBuildSpec
+	--- @return string
+	makefile = function(self) end,
+	--- Assignments to be passed to make during both passes
+	--- @param self MakeBuildSpec
+	--- @return { [string]: string }
+	variables = function(self) end,
+}
+
+--- A locally installed rock
+--- @class LocalPackage
+local _CLASS_LocalPackage_ = {
+	--- @param self LocalPackage
+	--- @return string
+	constraint = function(self) end,
+	--- @param self LocalPackage
+	--- @return string[]
+	dependencies = function(self) end,
+	--- @param self LocalPackage
+	--- @return LocalPackageHashes
+	hashes = function(self) end,
+	--- @param self LocalPackage
+	--- @return string
+	id = function(self) end,
+	--- @param self LocalPackage
+	--- @return string
+	name = function(self) end,
+	--- @param self LocalPackage
+	--- @return boolean
+	pinned = function(self) end,
+	--- @param self LocalPackage
+	--- @return PackageSpec
+	to_package = function(self) end,
+	--- @param self LocalPackage
+	--- @return PackageReq
+	to_package_req = function(self) end,
+	--- @param self LocalPackage
+	--- @return string
+	version = function(self) end,
+}
+
+--- RockSpec for a remote rock, deserialized from a `.rockspec` file
+--- @class RemoteLuaRockspec
+local _CLASS_RemoteLuaRockspec_ = {
+	--- @param self RemoteLuaRockspec
+	--- @return BuildSpec
+	build = function(self) end,
+	--- @param self RemoteLuaRockspec
+	--- @return LuaDependencySpec[]
+	build_dependencies = function(self) end,
+	--- @param self RemoteLuaRockspec
+	--- @return LuaDependencySpec[]
+	dependencies = function(self) end,
+	--- @param self RemoteLuaRockspec
+	--- @return RockDescription
+	description = function(self) end,
+	--- @param self RemoteLuaRockspec
+	--- @return { [string]: table }
+	external_dependencies = function(self) end,
+	--- @param self RemoteLuaRockspec
+	--- @return string | nil
+	format = function(self) end,
+	--- @param self RemoteLuaRockspec
+	--- @return string
+	lua = function(self) end,
+	--- @param self RemoteLuaRockspec
+	--- @return string
+	package = function(self) end,
+	--- @param self RemoteLuaRockspec
+	--- @return RemoteRockSource
+	source = function(self) end,
+	--- @param self RemoteLuaRockspec
+	--- @return PlatformSupport
+	supported_platforms = function(self) end,
+	--- @param self RemoteLuaRockspec
+	--- @return table
+	test = function(self) end,
+	--- @param self RemoteLuaRockspec
+	--- @return LuaDependencySpec[]
+	test_dependencies = function(self) end,
+	--- @param self RemoteLuaRockspec
+	--- @return string
+	to_lua_rockspec_string = function(self) end,
+	--- @param self RemoteLuaRockspec
+	--- @return string
+	version = function(self) end,
+}
+
+--- Specification for running a test suite with a command
+--- @class CommandTestSpec
+local _CLASS_CommandTestSpec_ = {
+	--- The command to run
+	--- @param self CommandTestSpec
+	--- @return string
+	command = function(self) end,
+	--- Additional CLI flags to pass to the command when running
+	--- @param self CommandTestSpec
+	--- @return string[]
+	flags = function(self) end,
+}
+
+--- Specification for building a rock with the `treesitter-parser` build backend
+--- @class TreesitterParserBuildSpec
+local _CLASS_TreesitterParserBuildSpec_ = {
+	--- Must the sources be generated?
+	--- @param self TreesitterParserBuildSpec
+	--- @return boolean
+	generate = function(self) end,
+	--- Name of the parser language, e.g. 'haskell'
+	--- @param self TreesitterParserBuildSpec
+	--- @return string
+	lang = function(self) end,
+	--- tree-sitter grammar's location (relative to the source root)
+	--- @param self TreesitterParserBuildSpec
+	--- @return string | nil
+	location = function(self) end,
+	--- Won't build the parser if `false`
+	--- @param self TreesitterParserBuildSpec
+	--- @return boolean
+	parser = function(self) end,
+	--- Embedded queries to be installed in the `etc/queries` directory
+	--- @param self TreesitterParserBuildSpec
+	--- @return { [string]: string }
+	queries = function(self) end,
+}
+
+--- A rock's metadata, to be displayed on the remote package server
+--- @class RockDescription
+local _CLASS_RockDescription_ = {
+	--- A longer description of the package
+	--- @param self RockDescription
+	--- @return string | nil
+	detailed = function(self) end,
+	--- An URL for the project. This is not the URL for the tarball, but the address of a website
+	--- @param self RockDescription
+	--- @return string | nil
+	homepage = function(self) end,
+	--- An URL for the project's issue tracker
+	--- @param self RockDescription
+	--- @return string | nil
+	issues_url = function(self) end,
+	--- A list of short strings that specify labels for categorization of this rock
+	--- @param self RockDescription
+	--- @return string[]
+	labels = function(self) end,
+	--- The license used by the package
+	--- @param self RockDescription
+	--- @return string | nil
+	license = function(self) end,
+	--- Contact information for the rockspec maintainer
+	--- @param self RockDescription
+	--- @return string | nil
+	maintainer = function(self) end,
+	--- A one-line description of the package
+	--- @param self RockDescription
+	--- @return string | nil
+	summary = function(self) end,
+}
+
+--- Specification for building a Lua module from various sources
+--- @class ModulePaths
+local _CLASS_ModulePaths_ = {
+	--- C defines, e.g. { 'FOO=bar', 'USE_BLA' }
+	--- @param self ModulePaths
+	--- @return { [string]: string | nil }
+	defines = function(self) end,
+	--- Directories to be added to the compiler's headers lookup directory list.
+	--- @param self ModulePaths
+	--- @return string[]
+	incdirs = function(self) end,
+	--- Directories to be added to the linker's library lookup directory list.
+	--- @param self ModulePaths
+	--- @return string[]
+	libdirs = function(self) end,
+	--- External libraries to be linked
+	--- @param self ModulePaths
+	--- @return string[]
+	libraries = function(self) end,
+	--- Path names of C sources, mandatory field
+	--- @param self ModulePaths
+	--- @return string[]
+	sources = function(self) end,
+}
+
+--- The `lux.toml`, after being validated and prepared for upload
+--- @class RemoteProjectToml
+local _CLASS_RemoteProjectToml_ = {
+	--- @param self RemoteProjectToml
+	--- @return BuildSpec
+	build = function(self) end,
+	--- @param self RemoteProjectToml
+	--- @return LuaDependencySpec[]
+	dependencies = function(self) end,
+	--- @param self RemoteProjectToml
+	--- @return RockDescription
+	description = function(self) end,
+	--- @param self RemoteProjectToml
+	--- @return string
+	package = function(self) end,
+	--- @param self RemoteProjectToml
+	--- @return RemoteRockSource
+	source = function(self) end,
+	--- @param self RemoteProjectToml
+	--- @return RemoteLuaRockspec
+	to_lua_rockspec = function(self) end,
+	--- @param self RemoteProjectToml
+	--- @return string
+	to_lua_rockspec_string = function(self) end,
+	--- @param self RemoteProjectToml
+	--- @return string
+	version = function(self) end,
+}
+
+--- Rockspec and source integrities of an installed rock
+--- @class LocalPackageHashes
+local _CLASS_LocalPackageHashes_ = {
+	--- @param self LocalPackageHashes
+	--- @return string
+	rockspec = function(self) end,
+	--- @param self LocalPackageHashes
+	--- @return string
+	source = function(self) end,
+}
+
+--- Writable lockfile for an install tree
+--- @class LockfileReadWrite
+local _CLASS_LockfileReadWrite_ = {
+	--- @param self LockfileReadWrite
+	--- @param id string
+	--- @return LocalPackage | nil
+	get = function(self, id) end,
+	--- @param self LockfileReadWrite
+	--- @return { [string]: LocalPackage }
+	rocks = function(self) end,
+	--- @param self LockfileReadWrite
+	--- @return string
+	version = function(self) end,
+}
+
+--- A collection of files where installed rocks are located
+--- @class Tree
+local _CLASS_Tree_ = {
+	--- Where wrapped package binaries are installed
+	--- @param self Tree
+	--- @return string
+	bin = function(self) end,
+	--- Create a `LockfileReadOnly` for this tree.
+	--- @param self Tree
+	--- @return LockfileReadOnly
+	lockfile = function(self) end,
+	--- Find installed rocks that match the given `PackageReq`
+	--- @param self Tree
+	--- @param req PackageReq
+	--- @return any
+	match_rocks = function(self, req) end,
+	--- Get the `RockLayout` for an installed package.
+	--- @param self Tree
+	--- @param package LocalPackage
+	--- @return RockLayout
+	rock_layout = function(self, package) end,
+	--- The root directory of the tree
+	--- @param self Tree
+	--- @return string
+	root = function(self) end,
+	--- The root directory of a package in this tree
+	--- @param self Tree
+	--- @param package LocalPackage
+	--- @return string
+	root_for = function(self, package) end,
+}
+
+--- Flushes a lockfile automatically when it goes out of scope
+--- @class LockfileGuard
+local _CLASS_LockfileGuard_ = {
+	--- @param self LockfileGuard
+	--- @param id string
+	--- @return LocalPackage | nil
+	get = function(self, id) end,
+	--- @param self LockfileGuard
+	--- @return { [string]: LocalPackage }
+	rocks = function(self) end,
+	--- @param self LockfileGuard
+	--- @return string
+	version = function(self) end,
+}
+
 --- Module for building a Lux `Config`
 --- @class ConfigModule
 local _CLASS_ConfigModule_ = {
@@ -1016,6 +930,100 @@ local _CLASS_ConfigModule_ = {
 	--- if present, or otherwise by instantiating the default config
 	--- @return ConfigBuilder
 	new = function() end,
+}
+
+--- Module for Lux operations
+--- @class OperationsModule
+local _CLASS_OperationsModule_ = {
+	--- Build a workspace
+	--- @param workspace Workspace Workspace to build
+	--- @param package string | nil Build only this package
+	--- @param config Config Lux config
+	--- @return LocalPackage[]
+	build = function(workspace, package, config) end,
+	--- Distribute a project as a single static binary
+	--- @param project Project Project to compile
+	--- @param tree Tree Install tree
+	--- @param output string Destination path for the compiled binary
+	--- @param config Config Lux config
+	--- @return string #1: the path to the compiled binary
+	dist_bin = function(project, tree, output, config) end,
+	--- Download the RockSpec for a package
+	--- @param package_req string Package to search for, e.g. 'foo' or 'foo >= 1.0.0'
+	--- @param config Config Lux config
+	--- @return DownloadedRockspec
+	download_rockspec = function(package_req, config) end,
+	--- Install one or multiple package(s)
+	--- @param packages table[] List of packages to install
+	--- @param tree Tree Install tree
+	--- @param config Config Lux config
+	--- @return LocalPackage[]
+	install = function(packages, tree, config) end,
+	--- Set the pinned state of a package
+	--- @param package_id string ID of the package to pin
+	--- @param tree Tree Install tree
+	--- @param pin_state boolean The pinned state to set
+	pin = function(package_id, tree, pin_state) end,
+	--- Search for a remote package
+	--- @param query string Package to search for, e.g. 'foo' or 'foo >= 1.0.0'
+	--- @param config Config Lux config
+	--- @return { [string]: string[] }
+	search = function(query, config) end,
+	--- Sync all workspace dependencies
+	--- @param workspace Workspace Workspace to sync
+	--- @param config Config Lux config
+	--- @return table
+	--- @return table
+	--- @return table
+	sync = function(workspace, config) end,
+	--- Sync workspace build dependencies
+	--- @param workspace Workspace Workspace to sync
+	--- @param config Config Lux config
+	--- @return table
+	sync_build_dependencies = function(workspace, config) end,
+	--- Sync workspace dependencies
+	--- @param workspace Workspace Workspace to sync
+	--- @param config Config Lux config
+	--- @return table
+	sync_dependencies = function(workspace, config) end,
+	--- Sync workspace test dependencies
+	--- @param workspace Workspace Workspace to sync
+	--- @param config Config Lux config
+	--- @return table
+	sync_test_dependencies = function(workspace, config) end,
+	--- Uninstall one or multiple package(s)
+	--- @param packages string[] IDs of packages to uninstall
+	--- @param tree Tree | nil Install tree
+	--- @param config Config Lux config
+	uninstall = function(packages, tree, config) end,
+	--- Update installed packages
+	--- @param config Config Lux config
+	--- @return LocalPackage[]
+	update = function(config) end,
+}
+
+--- Module for interacting with a Lux workspace
+--- @class WorkspaceModule
+local _CLASS_WorkspaceModule_ = {
+	--- Load the current workspace, if in a workspace
+	--- @return Workspace | nil
+	current = function() end,
+	--- Load the workspace in the given directory, if present
+	--- @param path string The workspace root
+	--- @return Workspace | nil
+	new = function(path) end,
+	--- Search for a workspace upwards from the given directory and load it, if present
+	--- @param path string The directory to search upwards from
+	--- @return Workspace | nil
+	new_fuzzy = function(path) end,
+}
+
+--- Module for connecting Lux progress reports to a running LSP server
+--- @class ProgressModule
+local _CLASS_ProgressModule_ = {
+	--- Connect progress reports to a running LSP server for a given workspace
+	--- @param workspace Workspace The workspace to connect progress reporting to
+	set_connection = function(workspace) end,
 }
 
 --- Module for interacting with a Lux project
@@ -1032,6 +1040,8 @@ local _CLASS_ProjectModule_ = {
 --- @field config ConfigModule
 --- Module for Lux operations
 --- @field operations OperationsModule
+--- Module for connecting Lux progress reports to the LSP server
+--- @field progress ProgressModule
 --- Module for interacting with a Lux project
 --- @field project ProjectModule
 --- Module for interacting with a Lux workspace

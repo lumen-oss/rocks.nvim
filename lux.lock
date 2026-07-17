@@ -42,24 +42,6 @@
           "source": "sha256-FHcRXIAgLJRn43SedMlMaTKdHR7ypsaKXr2AKNsBjIk="
         }
       },
-      "29ef953dc798556a42eaab47f0b8436044513131e109082f4cbef966f174e149": {
-        "name": "lux-lua",
-        "version": "0.27.0-2",
-        "pinned": false,
-        "opt": false,
-        "dependencies": [],
-        "constraint": "==0.27.0",
-        "binaries": [],
-        "source": "luarocks_rockspec+https://luarocks.org/",
-        "source_url": {
-          "type": "url",
-          "url": "https://github.com/lumen-oss/lux/archive/refs/tags/v0.27.0.zip"
-        },
-        "hashes": {
-          "rockspec": "sha256-qIA6/XhKNnm9dhBwq0vsbiVX6vN8VGOlF2XqoaKuI/w=",
-          "source": "sha256-bH848TYRl5S95w5R4/6YFFtXc5CKJIL8RJUz0GTpIJE="
-        }
-      },
       "392c069ca7154cb446b52b0f9c6be33de04e6a6f0a7c9ff762b30c5b9db1bdc7": {
         "name": "mega.logging",
         "version": "1.1.6-1",
@@ -132,24 +114,42 @@
           "source": "sha256-5x+iHduNdyVjS6+OrqfDh17g9o2tP2YFFqKEsK6Z5zw="
         }
       },
-      "4cefff9fce537e85ab2b462b2ce70102d9a4a07216e2da5a9bf08306dd3c245a": {
-        "name": "fallo",
-        "version": "2.3.0-1",
+      "6228779692c3a3c258761771a4c26efaf2095e2e52f3858d3e304b53f59bed4a": {
+        "name": "lux-lua",
+        "version": "0.39.7-2",
         "pinned": false,
         "opt": false,
         "dependencies": [
-          "de4d44feb13b9bf2c4b33dbc1d9361a46a51431048b1c303cb04298b7f015192"
+          "4baf7dd39222b80f5cf99d42a7680230347c91800c8eb83782fedc6f9a8dce24"
         ],
-        "constraint": "==2.3.0",
+        "constraint": "==0.39.7",
         "binaries": [],
         "source": "luarocks_rockspec+https://luarocks.org/",
         "source_url": {
           "type": "url",
-          "url": "https://github.com/NTBBloodbath/fallo/archive/v2.3.0.zip"
+          "url": "https://github.com/lumen-oss/lux/archive/refs/tags/v0.39.7.zip"
         },
         "hashes": {
-          "rockspec": "sha256-sAIl/AXD2vlh3K+Em/8MIL2gQPZlVmYO3tMj5YlgFiI=",
-          "source": "sha256-ftQbnDdns5JUnv9FrbG+uN15y1pVLtgdkpksLIqK+98="
+          "rockspec": "sha256-I4zKAOuST4r8vBp5h9qdey2wovMkokqP03Vz7QGEkZU=",
+          "source": "sha256-j3RoQ0CmVw8LoK0fGxK8HtYXasLvmIBAwyYoKORtRZM="
+        }
+      },
+      "702ccb39f6ec3ccc0f6c3aafdba3c1eec96525d074d8d38acbc52d67f0659aed": {
+        "name": "lux-lsp",
+        "version": "0.39.6-1",
+        "pinned": false,
+        "opt": false,
+        "dependencies": [],
+        "constraint": "==0.39.6",
+        "binaries": [],
+        "source": "luarocks_rockspec+https://luarocks.org/",
+        "source_url": {
+          "type": "url",
+          "url": "https://github.com/lumen-oss/lux/archive/refs/tags/lux-lsp-v0.39.6.zip"
+        },
+        "hashes": {
+          "rockspec": "sha256-LT2YlA0wadxDci5b5RcsylhY8gmj8x3VjCZce4NYEDI=",
+          "source": "sha256-Th/Ou/Eoz7tSKUZUyOK/l1n3nUxqEKFB7cq8BiE2hjM="
         }
       },
       "9e1642247f9208a7e65e1e76461b2adc6f35fe644ce4cdf9f7fa6f5a12c8845e": {
@@ -168,6 +168,26 @@
         "hashes": {
           "rockspec": "sha256-QL5OCZFBGixecdEoriGck4iG83tjM09ewYbWVSbcfa4=",
           "source": "sha256-5x+iHduNdyVjS6+OrqfDh17g9o2tP2YFFqKEsK6Z5zw="
+        }
+      },
+      "a0de6c001f6dcd1f9cab8829898caff97ce30154497d3c91a10039289ade2ff4": {
+        "name": "fallo",
+        "version": "2.2.0-1",
+        "pinned": false,
+        "opt": false,
+        "dependencies": [
+          "de4d44feb13b9bf2c4b33dbc1d9361a46a51431048b1c303cb04298b7f015192"
+        ],
+        "constraint": "==2.2.0",
+        "binaries": [],
+        "source": "luarocks_rockspec+https://luarocks.org/",
+        "source_url": {
+          "type": "url",
+          "url": "https://codeberg.org/amartin/fallo/archive/v2.2.0.zip"
+        },
+        "hashes": {
+          "rockspec": "sha256-XH9sV9n1N7MmTHtkZBu6ExzP2bM6JRPJIzz66R8mOk0=",
+          "source": "sha256-04vgHr2G0qYv3wxdUeyQipAOlCAa/YbZRw/7/7mnzhE="
         }
       },
       "d5ae631affa6aa41efffabcb838f11fc79dd668e93334f0ec6553a44b70570e8": {
@@ -213,11 +233,14 @@
     "entrypoints": [
       "092cfae92b533f27d1a40489c6b6b2947dd73f2fc7621fa8dc89f75cf91885df",
       "1771fae3f12276d55017ad5cba1438f7f3bdc1df9b1ac11c6617c88a9a30d2c6",
-      "29ef953dc798556a42eaab47f0b8436044513131e109082f4cbef966f174e149",
       "3a7a7cc18fcf23a1d6688eb0bbf3519cd8b34c44ca052cec29a6a3c847c24b77",
       "4baf7dd39222b80f5cf99d42a7680230347c91800c8eb83782fedc6f9a8dce24",
+      "4baf7dd39222b80f5cf99d42a7680230347c91800c8eb83782fedc6f9a8dce24",
+      "4baf7dd39222b80f5cf99d42a7680230347c91800c8eb83782fedc6f9a8dce24",
       "4beffe8f19bd92ebd061cfcf0f6fc22aff5a983169781cfc857b21365b619553",
-      "4cefff9fce537e85ab2b462b2ce70102d9a4a07216e2da5a9bf08306dd3c245a",
+      "6228779692c3a3c258761771a4c26efaf2095e2e52f3858d3e304b53f59bed4a",
+      "702ccb39f6ec3ccc0f6c3aafdba3c1eec96525d074d8d38acbc52d67f0659aed",
+      "a0de6c001f6dcd1f9cab8829898caff97ce30154497d3c91a10039289ade2ff4",
       "d5ae631affa6aa41efffabcb838f11fc79dd668e93334f0ec6553a44b70570e8"
     ]
   },

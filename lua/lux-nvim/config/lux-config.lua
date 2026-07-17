@@ -6,8 +6,6 @@ local default_config = lux.config.new()
     :entrypoint_layout({ layout = "nvim" })
     :build()
 
-lux.logging.set_enabled(true)
-
 -- TODO(vhyrro): this should read from the lua configuration and adapt the config accordingly
 function lux_config.default()
     return default_config
