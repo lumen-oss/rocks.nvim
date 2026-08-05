@@ -9,7 +9,7 @@ local Result = require("fallo")
 workspace.PROJECT_PATH = pathlib.stdpath("config")
 
 ---@return Result<any, string>
-function workspace.new()
+function workspace.get()
     local ws = lux.workspace.new(workspace.PROJECT_PATH:tostring())
 
     if not ws then

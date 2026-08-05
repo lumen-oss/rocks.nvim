@@ -15,8 +15,8 @@ nvim-nio = "1.10.1-1"
 "pathlib.nvim" = "2.2.3-1"
 fallo = "2.2.0-1"
 "mega.cmdparse" = "1.2.1-1"
-lux-lsp = "0.39.6-1"
-lux-lua = "0.39.7-2"
+# lux-lsp = "0.40.0-1"
+lux-lua = "0.40.1-2"
 
 [test_dependencies]
 nlua = "0.3.2-1"

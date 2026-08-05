@@ -24,7 +24,7 @@ local function set_up_sync_command(subparser)
         help = "Syncs the `lux.toml` state with the filesystem"
     })
     parser:set_execute(function(_data)
-        local ws = workspace.new():unwrap()
+        local ws = workspace.get():unwrap()
         coro.execute(function()
             lux.operations.sync(ws, config.default())
         end)
@@ -37,9 +37,7 @@ local function set_up_log_command(subparser)
         name = "log",
         help = "Shows the `lux.nvim` logfile for debugging"
     })
-    parser:set_execute(function(_data)
-        vim.cmd.edit(log:get_log_path())
-    end)
+    parser:set_execute(require("lux-nvim.operations").open_logfile)
 end
 
 ---@param subparser mega.cmdparse.Subparsers
@@ -69,7 +67,12 @@ function commands.create_commands()
         nargs = "+",
         required = false,
     }, function(data)
-        -- local packages = data.something.packages
+        local ws = workspace.get():unwrap()
+        local cfg = config.default()
+
+        coro.execute(function()
+            lux.operations.update(ws, data.namespace.packages, cfg)
+        end)
     end)
 
     set_up_package_command(subparser, {
@@ -81,9 +84,11 @@ function commands.create_commands()
         help = "Packages to install (`package_name` or `package_name@version`)",
         nargs = "+",
     }, function(data)
-        local ws = workspace.new():unwrap()
+        local ws = workspace.get():unwrap()
+        local cfg = config.default()
+
         coro.execute(function()
-            -- lux.operations.install
+            lux.operations.add(ws, { regular = data.namespace.packages }, cfg)
         end)
     end)
 
@@ -94,9 +99,13 @@ function commands.create_commands()
         name = "packages",
         help = "Packages to remove (`package_name`)",
         nargs = "+",
-        -- TODO(vhyrro): parse directly into `PackageReq`s
-    }, function()
+    }, function(data)
+        local ws = workspace.get():unwrap()
+        local cfg = config.default()
 
+        coro.execute(function()
+            lux.operations.remove(ws, { regular = data.namespace.packages }, cfg)
+        end)
     end)
 
     set_up_package_command(subparser, {
@@ -106,9 +115,7 @@ function commands.create_commands()
         name = "packages",
         help = "Packages to pin (`package_name`)",
         nargs = "+",
-    }, function()
-
-    end)
+    }, function() end)
 
     set_up_package_command(subparser, {
         name = "unpin",
@@ -117,9 +124,7 @@ function commands.create_commands()
         name = "packages",
         help = "Packages to unpin (`package_name`)",
         nargs = "+",
-    }, function()
-
-    end)
+    }, function() end)
 
     set_up_edit_command(subparser)
     set_up_sync_command(subparser)
