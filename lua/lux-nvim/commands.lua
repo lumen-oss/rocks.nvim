@@ -1,9 +1,9 @@
 local cmd = require("mega.cmdparse")
-local workspace = require("lux-nvim.workspace")
 local config = require("lux-nvim.config.lux-config")
-local lux = require("lux-nvim.lux-lua-shim")
-local log = require("lux-nvim.log")
 local coro = require("lux-nvim.coroutine")
+local lux = require("lux-nvim.lux-lua-shim")
+local paths = require("lua.lux-nvim.paths")
+local workspace = require("lux-nvim.workspace")
 
 local commands = {}
 
@@ -25,8 +25,12 @@ local function set_up_sync_command(subparser)
     })
     parser:set_execute(function(_data)
         local ws = workspace.get():unwrap()
+        local cfg = config.default()
         coro.execute(function()
-            lux.operations.sync(ws, config.default())
+            local report = lux.operations.sync(ws, cfg)
+            local regular_dependencies_added = report[1].added
+
+            paths.add_to_package_path(regular_dependencies_added, ws, cfg)
         end)
     end)
 end
@@ -88,7 +92,8 @@ function commands.create_commands()
         local cfg = config.default()
 
         coro.execute(function()
-            lux.operations.add(ws, { regular = data.namespace.packages }, cfg)
+            local added = lux.operations.add(ws, { regular = data.namespace.packages }, cfg)
+            paths.add_to_package_path(added, ws, cfg)
         end)
     end)
 
