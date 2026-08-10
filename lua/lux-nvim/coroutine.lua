@@ -14,8 +14,9 @@ function coro.execute(func)
     local function step()
         local ok, result = coroutine.resume(co)
         if not ok then
-            log:fatal(tostring(result))
-            return
+            local res = tostring(result)
+            log:fatal(res)
+            error(res)
         end
         if coroutine.status(co) ~= "dead" then
             vim.schedule(step)

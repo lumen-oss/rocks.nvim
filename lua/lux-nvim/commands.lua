@@ -10,7 +10,7 @@ local commands = {}
 ---@param subparser mega.cmdparse.Subparsers
 ---@param parser_data mega.cmdparse.ParameterParserInputOptions
 ---@param parameter_data mega.cmdparse.ParameterInputOptions
----@param fn fun(data: any)
+---@param fn fun(data: unknown)
 local function set_up_package_command(subparser, parser_data, parameter_data, fn)
     local parser = subparser:add_parser(parser_data)
     parser:add_parameter(parameter_data)
@@ -64,7 +64,7 @@ function commands.create_commands()
 
     set_up_package_command(subparser, {
         name = "update",
-        help = "Updates all the plugins in `lux.toml`"
+        help = "Update plugins managed by Lux"
     }, {
         name = "packages",
         help = "Packages to update",
@@ -124,7 +124,7 @@ function commands.create_commands()
 
     set_up_package_command(subparser, {
         name = "unpin",
-        help = "Unpins a package so that it can receive updates again",
+        help = "Unpins a pinned package so that it can receive updates again",
     }, {
         name = "packages",
         help = "Packages to unpin (`package_name`)",

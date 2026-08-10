@@ -16,9 +16,6 @@ local config = {}
 --- Whether to re-generate plugins help pages after installation/upgrade. (Default: `true`).
 ---@field generate_help_pages? boolean
 ---
---- Whether to update remote plugins after installation/upgrade. (Default: `true`).
----@field update_remote_plugins? boolean
----
 --- Whether to auto-sync if plugins cannot be found on startup. (Default: `false`).
 --- If unset, lux.nvim will prompt to sync.
 ---@field auto_sync? boolean

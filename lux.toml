@@ -3,8 +3,8 @@ version = "3.0.0"
 lua = "5.1"
 
 [description]
-summary = "🌒 Neovim plugin management inspired by Cargo, powered by luarocks"
-labels = [ "lua", "luarocks", "neovim", "neovim-plugin", "nvim", "package-manager", "plugin", "plugin-manager" ]
+summary = "🌒 Neovim plugin management inspired by Cargo, powered by lux"
+labels = [ "lua", "lux", "neovim", "neovim-plugin", "nvim", "package-manager", "plugin", "plugin-manager" ]
 license = "GPL-3.0"
 
 [dependencies]
@@ -18,11 +18,8 @@ fallo = "2.2.0-1"
 # lux-lsp = "0.40.0-1"
 lux-lua = "0.40.1-2"
 
-[test_dependencies]
-nlua = "0.3.2-1"
-
-# [run]
-# command = "nvim"
+[test]
+type = "busted-nlua"
 
 [build]
 type = "builtin"
