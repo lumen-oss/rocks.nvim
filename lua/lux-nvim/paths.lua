@@ -28,6 +28,19 @@ function paths.configure_package_path()
     package.path = package.path .. ";" .. paths
 end
 
+-- ---@param pkgs string[]
+-- function paths.add_to_package_path(pkgs)
+--     local cfg = config.default()
+--     local ws = workspace.get():unwrap()
+--     ---@type Tree
+--     local tree = ws:tree(cfg)
+--
+--     for _, pkg in ipairs(pkgs) do
+--         -- TODO(vhyrro): make lua operations return the packages they operated on
+--     end
+--
+-- end
+
 --- Ensures that the symlink between the site/pack/lux directory from the tree and the
 --- actual Neovim site is maintained properly.
 function paths.ensure_symlink()
