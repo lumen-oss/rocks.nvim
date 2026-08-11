@@ -2,5 +2,4 @@ result*
 https___*
 .pre-commit-config.yaml
 .direnv
-.luarc.json
 .lux

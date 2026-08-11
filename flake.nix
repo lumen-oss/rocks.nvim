@@ -1,5 +1,5 @@
 {
-  description = "Definitely not a Neovim and Luarocks breed";
+  description = "A modern approach to Neovim plugin management";
 
   nixConfig = {
     extra-substituters = "https://lumen-labs.cachix.org";
@@ -7,169 +7,57 @@
   };
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs";
-
-    neorocks.url = "github:lumen-oss/neorocks";
-
-    gen-luarc = {
-      url = "github:mrcjkb/nix-gen-luarc-json";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    vimcats.url = "github:mrcjkb/vimcats";
-
-    flake-parts.url = "github:hercules-ci/flake-parts";
-
-    pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    neorocks,
-    gen-luarc,
-    flake-parts,
-    pre-commit-hooks,
-    ...
-  }: let
-    name = "rocks.nvim";
+  outputs =
+    inputs@{
+      self,
+      ...
+    }:
+    let
+      inherit (inputs.nixpkgs) lib;
+      foreach =
+        xs: f:
+        with lib;
+        foldr recursiveUpdate { } (
+          if isList xs then
+            map f xs
+          else if isAttrs xs then
+            mapAttrsToList f xs
+          else
+            throw "foreach: expected list or attrset but got ${typeOf xs}"
+        );
 
-    plugin-overlay = import ./nix/plugin-overlay.nix {
-      inherit name self;
-    };
-    test-overlay = import ./nix/test-overlay.nix {
-      inherit self inputs;
-    };
-  in
-    flake-parts.lib.mkFlake {inherit inputs;} {
-      systems = [
-        "x86_64-linux"
-        "x86_64-darwin"
-        "aarch64-darwin"
-      ];
-      perSystem = {
-        config,
-        self',
-        inputs',
-        system,
-        ...
-      }: let
-        pkgs = import nixpkgs {
-          inherit system;
-          overlays = [
-            neorocks.overlays.default
-            gen-luarc.overlays.default
-            plugin-overlay
-            test-overlay
-          ];
-        };
-
-        mk-luarc = nvim:
-          pkgs.mk-luarc {
-            inherit nvim;
-            plugins = with pkgs.lua51Packages; [
-              toml-edit
-              fidget-nvim
-              fzy
-              nvim-nio
-            ];
-            disabled-diagnostics = [
-              # caused by a nio luaCATS bug
-              "redundant-return-value"
-              # we use @package to prevent lemmy-help from generating vimdoc
-              "invisible"
-            ];
-          };
-
-        luarc-nightly = mk-luarc pkgs.neovim-nightly;
-        luarc-stable = mk-luarc pkgs.neovim-unwrapped;
-
-        mk-type-check = luarc:
-          pre-commit-hooks.lib.${system}.run {
-            src = self;
-            hooks = {
-              lua-ls = {
-                enable = true;
-                settings.configuration = luarc;
-              };
-            };
-          };
-
-        type-check-nightly = mk-type-check luarc-nightly;
-        type-check-stable = mk-type-check luarc-stable;
-
-        pre-commit-check = pre-commit-hooks.lib.${system}.run {
-          src = self;
-          hooks = {
-            alejandra.enable = true;
-            stylua.enable = true;
-            luacheck.enable = true;
-            editorconfig-checker.enable = true;
-            docgen = {
-              enable = true;
-              name = "docgen";
-              entry = "make docgen";
-              extraPackages = [inputs.vimcats.packages.${system}.default];
-              files = "\\.(lua)$";
-              pass_filenames = false;
-            };
-          };
-        };
-
-        devShell = pkgs.integration-nightly.overrideAttrs (oa: {
-          name = "rocks.nvim devShell";
-          shellHook = ''
-            ${pre-commit-check.shellHook}
-            ln -fs ${pkgs.luarc-to-json luarc-nightly} .luarc.json
-            export GIT2_DIR=${pkgs.libgit2.lib}
-          '';
+    in
+    foreach inputs.nixpkgs.legacyPackages (
+      system: pkgs:
+      let
+        pkgs = inputs.nixpkgs.legacyPackages.${system};
+      in
+      {
+        legacyPackages.${system} = pkgs;
+        devShells.${system}.default = pkgs.mkShell {
+          name = "lux.nvim devShell";
           buildInputs =
-            self.checks.${system}.pre-commit-check.enabledPackages
-            ++ (with pkgs; [
-              lua-language-server
-              # For tree-sitter parsers that need sources
-              # to be generated
-              gcc
-              tree-sitter
-              inputs.vimcats.packages.${system}.default
-            ])
-            ++ oa.buildInputs
-            ++ oa.propagatedBuildInputs;
-          doCheck = false;
-        });
-      in {
-        devShells = {
-          default = devShell;
-          inherit devShell;
+            with pkgs;
+            with pkgs;
+            [
+              lux-cli
+              luajit
+              pkg-config
+              cargo
+              emmylua-ls
+            ];
+          shellHook = ''
+            # for `lx check`
+            if command -v nvim >/dev/null 2>&1; then
+              export VIMRUNTIME="$(nvim --clean --headless -c 'lua io.write(vim.env.VIMRUNTIME)' +q)";
+            else
+              export VIMRUNTIME="${pkgs.neovim-unwrapped}/share/nvim/runtime"
+            fi
+          '';
         };
-
-        packages = rec {
-          default = rocks-nvim;
-          inherit (pkgs.luajitPackages) rocks-nvim;
-          inherit
-            (pkgs)
-            neovim-with-rocks
-            ;
-        };
-
-        # TODO: add integration-stable when ready
-        checks = {
-          inherit
-            pre-commit-check
-            type-check-stable
-            type-check-nightly
-            ;
-          inherit
-            (pkgs)
-            integration-nightly
-            ;
-        };
-      };
-      flake = {
-        overlays.default = plugin-overlay;
-      };
-    };
+      }
+    );
 }
