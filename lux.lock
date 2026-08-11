@@ -114,26 +114,6 @@
           "source": "sha256-5x+iHduNdyVjS6+OrqfDh17g9o2tP2YFFqKEsK6Z5zw="
         }
       },
-      "8f9e9d07f831e4c29d54a303561b93ee81dd3398b06e032c054b3d1097a13871": {
-        "name": "lux-lua",
-        "version": "0.40.1-2",
-        "pinned": false,
-        "opt": false,
-        "dependencies": [
-          "4baf7dd39222b80f5cf99d42a7680230347c91800c8eb83782fedc6f9a8dce24"
-        ],
-        "constraint": "==0.40.1",
-        "binaries": [],
-        "source": "luarocks_rockspec+https://luarocks.org/",
-        "source_url": {
-          "type": "url",
-          "url": "https://github.com/lumen-oss/lux/archive/refs/tags/v0.40.1.zip"
-        },
-        "hashes": {
-          "rockspec": "sha256-sQYLaLJLCfVXERAbARe3Zym2Y3BGigr+Rv3oP6BEvO8=",
-          "source": "sha256-iUT627957UTV6NdnItQr9vk/qunFkxYG/DIjgfNxi1c="
-        }
-      },
       "9e1642247f9208a7e65e1e76461b2adc6f35fe644ce4cdf9f7fa6f5a12c8845e": {
         "name": "nvim-nio",
         "version": "1.10.1-1",
@@ -198,8 +178,8 @@
         "dependencies": [],
         "constraint": ">=2.1.0",
         "binaries": [
-          "json2lua",
-          "lua2json"
+          "lua2json",
+          "json2lua"
         ],
         "source": "luarocks_rockspec+https://luarocks.org/",
         "source_url": {
@@ -218,7 +198,6 @@
       "3a7a7cc18fcf23a1d6688eb0bbf3519cd8b34c44ca052cec29a6a3c847c24b77",
       "4baf7dd39222b80f5cf99d42a7680230347c91800c8eb83782fedc6f9a8dce24",
       "4beffe8f19bd92ebd061cfcf0f6fc22aff5a983169781cfc857b21365b619553",
-      "8f9e9d07f831e4c29d54a303561b93ee81dd3398b06e032c054b3d1097a13871",
       "a0de6c001f6dcd1f9cab8829898caff97ce30154497d3c91a10039289ade2ff4",
       "d5ae631affa6aa41efffabcb838f11fc79dd668e93334f0ec6553a44b70570e8"
     ]
@@ -477,6 +456,70 @@
     "entrypoints": [
       "aa700d6a934caa749d578927c97e22211ffabf97234705d63e95dc6403f6aafe",
       "d85464dc58c62460a1ecb14e6ac773ae615a66a8224b26ceb25d954c6b05ca74"
+    ]
+  },
+  "build_dependencies": {
+    "rocks": {
+      "03a50ed26ba61a2b9ad9ea3ae9e9bc768b4c2471f863e4dc64842353a039614b": {
+        "name": "mega.vimdoc",
+        "version": "1.2.0-1",
+        "pinned": false,
+        "opt": false,
+        "dependencies": [
+          "47699d5ec4bebdf9fe059f67be9d0c204c9f006d27d6adec619c6f28fb04f350",
+          "dd68f82e6cefb916256a2b908936519b8784f440a5bb84ddb2e4bc9249a7215f"
+        ],
+        "constraint": "==1.2.0",
+        "binaries": [],
+        "source": "luarocks_rockspec+https://luarocks.org/",
+        "source_url": {
+          "type": "url",
+          "url": "https://github.com/ColinKennedy/mega.vimdoc/archive/v1.2.0.zip"
+        },
+        "hashes": {
+          "rockspec": "sha256-NhofHi3/mhnU8bAShsjHfpymN+eZlRtBFEDxcmnt7NE=",
+          "source": "sha256-LKlwIScyZFCvoI+2N057C9/7RtneMs/X1Y9n8a6/pb8="
+        }
+      },
+      "47699d5ec4bebdf9fe059f67be9d0c204c9f006d27d6adec619c6f28fb04f350": {
+        "name": "mini.doc",
+        "version": "0.18.0-1",
+        "pinned": false,
+        "opt": false,
+        "dependencies": [],
+        "constraint": ">=0.14.0, <1.0",
+        "binaries": [],
+        "source": "luarocks_rockspec+https://luarocks.org/",
+        "source_url": {
+          "type": "url",
+          "url": "https://github.com/nvim-mini/mini.doc/archive/v0.18.0.zip"
+        },
+        "hashes": {
+          "rockspec": "sha256-juTbWQfQLaiyQtmrH/qRxiyfffAX0Wyun+yTcU/7mgY=",
+          "source": "sha256-VczFxASlEq9rz+KsODjrtCybFvz+q5zXwJVoaGEZHgc="
+        }
+      },
+      "dd68f82e6cefb916256a2b908936519b8784f440a5bb84ddb2e4bc9249a7215f": {
+        "name": "mega.logging",
+        "version": "1.1.6-1",
+        "pinned": false,
+        "opt": false,
+        "dependencies": [],
+        "constraint": ">=1.1.4, <2.0",
+        "binaries": [],
+        "source": "luarocks_rockspec+https://luarocks.org/",
+        "source_url": {
+          "type": "url",
+          "url": "https://github.com/ColinKennedy/mega.logging/archive/v1.1.6.zip"
+        },
+        "hashes": {
+          "rockspec": "sha256-b/UNBHzASov3C1Tp3B43NfCtejHOBc3FjYNZHAndRu0=",
+          "source": "sha256-xz8Btm9bYc+VR5jcgdzVSmnhFaVzi7pj6NkoBXd0FFQ="
+        }
+      }
+    },
+    "entrypoints": [
+      "03a50ed26ba61a2b9ad9ea3ae9e9bc768b4c2471f863e4dc64842353a039614b"
     ]
   }
 }

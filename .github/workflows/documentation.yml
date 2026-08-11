@@ -1,0 +1,42 @@
+name: documentation
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - docs/**
+      - lua/**
+      - scripts/**
+
+permissions:
+  contents: write
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: sudo apt-get update && sudo apt-get install -y pandoc
+
+      - name: Setup Neovim
+        uses: rhysd/action-setup-vim@v1
+        with:
+          neovim: true
+          version: stable
+
+      - name: Install Lux
+        uses: lumen-oss/gh-actions-lux@v1
+        with:
+          version: 0.40.8
+
+      - name: Fetch dependencies
+        run: lx sync
+
+      - run: make documentation
+      - run: make docgen
+
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "docs: update vimdoc"
+          file_pattern: doc/*.txt doc/tags

@@ -1,8 +1,10 @@
 FuzzyFilterOpts	rocks.txt	/*FuzzyFilterOpts*
 MutRocksTomlRef	rocks.txt	/*MutRocksTomlRef*
 OutdatedRock	rocks.txt	/*OutdatedRock*
+PartialLuaRockspec	lux-api-lux-lua-shim.txt	/*PartialLuaRockspec*
 Rock	rocks.txt	/*Rock*
 RockHandler	rocks.txt	/*RockHandler*
+RockLayout	lux-api-lux-lua-shim.txt	/*RockLayout*
 RockSpec	rocks.txt	/*RockSpec*
 RocksCmd	rocks.txt	/*RocksCmd*
 RocksOpts	rocks.txt	/*RocksOpts*
@@ -27,6 +29,14 @@ log.info	rocks.txt	/*log.info*
 log.set_level	rocks.txt	/*log.set_level*
 log.trace	rocks.txt	/*log.trace*
 log.warn	rocks.txt	/*log.warn*
+lux-nvim.commands.create_commands()	lux-api-commands.txt	/*lux-nvim.commands.create_commands()*
+lux-nvim.config.check.get_unrecognized_keys()	lux-api-config-check.txt	/*lux-nvim.config.check.get_unrecognized_keys()*
+lux-nvim.config.check.validate()	lux-api-config-check.txt	/*lux-nvim.config.check.validate()*
+lux-nvim.coroutine.execute()	lux-api-coroutine.txt	/*lux-nvim.coroutine.execute()*
+lux-nvim.paths.add_to_package_path()	lux-api-paths.txt	/*lux-nvim.paths.add_to_package_path()*
+lux-nvim.paths.ensure_symlink()	lux-api-paths.txt	/*lux-nvim.paths.ensure_symlink()*
+lux-nvim.workspace.PROJECT_PATH	lux-api-workspace.txt	/*lux-nvim.workspace.PROJECT_PATH*
+lux-nvim.workspace.get()	lux-api-workspace.txt	/*lux-nvim.workspace.get()*
 must	rocks.txt	/*must*
 rock_config_table	rocks.txt	/*rock_config_table*
 rock_handler.on_success.Opts	rocks.txt	/*rock_handler.on_success.Opts*
@@ -52,4 +62,8 @@ rocks.hooks.Preload	rocks.txt	/*rocks.hooks.Preload*
 rocks.hooks.RockSpecModifier	rocks.txt	/*rocks.hooks.RockSpecModifier*
 rocks.hooks.preload	rocks.txt	/*rocks.hooks.preload*
 rocks.user-event	rocks.txt	/*rocks.user-event*
+rocks.user-events.data.RocksInstallPost	rocks.txt	/*rocks.user-events.data.RocksInstallPost*
+test-hello	test.txt	/*test-hello*
+test-table-of-contents	test.txt	/*test-table-of-contents*
+test.txt	test.txt	/*test.txt*
 vim.g.rocks_nvim	rocks.txt	/*vim.g.rocks_nvim*

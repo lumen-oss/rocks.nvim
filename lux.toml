@@ -16,7 +16,10 @@ nvim-nio = "1.10.1-1"
 fallo = "2.2.0-1"
 "mega.cmdparse" = "1.2.1-1"
 # lux-lsp = "0.40.0-1"
-lux-lua = "0.40.1-2"
+# lux-lua = "0.40.1-2"
+
+[build_dependencies]
+"mega.vimdoc" = "1.2.0-1"
 
 [test]
 type = "busted-nlua"
