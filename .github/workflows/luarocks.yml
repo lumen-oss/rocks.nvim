@@ -1,58 +1,32 @@
-name: Push to Luarocks
-
+---
+name: "Push to LuaRocks"
 on:
   push:
     tags:
-      - '*'
-  release:
-    types:
-      - created
-  pull_request:
+      - "*"
   workflow_dispatch:
 
 jobs:
-  luarocks-upload:
+  luarocks-release:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
         with:
-          fetch-depth: 0 # Required to count the commits
-      - name: Get Version
-        run: echo "LUAROCKS_VERSION=$(git describe --abbrev=0 --tags)" >> $GITHUB_ENV
-      - name: Install Rust toolchain
-        uses: actions-rust-lang/setup-rust-toolchain@v1
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: Install Lux
+        uses: lumen-oss/gh-actions-lux@v1
         with:
-          rustflags: ""
-      - name: LuaRocks Upload
-        uses: nvim-neorocks/luarocks-tag-release@v7
+          version: 0.40.8
+
+      - name: Upload
+        run: |
+          lx --nvim upload
         env:
-          LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
-        with:
-          version: ${{ env.LUAROCKS_VERSION }}
-          dependencies: |
-            lua == 5.1
-            luarocks >= 3.11.1, < 4.0.0
-            toml-edit >= 0.6.1
-            fidget.nvim >= 1.1.0
-            fzy
-            nvim-nio
-            rtp.nvim
-          labels: |
-            neovim
-          detailed_description: |
-            rocks.nvim is an all in one solution for installing and managing
-            Neovim plugins through the luarocks package manager.
+          LUX_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
 
-            It supports dependency management, build scripts,
-            all defined from a single rocks.toml file.
-
-            Features:
-
-              - Cargo-like rocks.toml file for declaring all your plugins.
-              - Name-based installation ("nvim-neorg/neorg" becomes :Rocks install neorg instead).
-              - Automatic dependency and build script management.
-              - True semver versioning!
-              - Minimal, non-intrusive UI.
-              - Async execution.
-              - Extensible, with a Lua API.
-              - Command completions for plugins on luarocks.org.

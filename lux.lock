@@ -8,7 +8,6 @@
         "pinned": false,
         "opt": false,
         "dependencies": [
-          "9e1642247f9208a7e65e1e76461b2adc6f35fe644ce4cdf9f7fa6f5a12c8845e",
           "9e1642247f9208a7e65e1e76461b2adc6f35fe644ce4cdf9f7fa6f5a12c8845e"
         ],
         "constraint": "==2.2.3",
@@ -29,7 +28,6 @@
         "pinned": false,
         "opt": false,
         "dependencies": [
-          "392c069ca7154cb446b52b0f9c6be33de04e6a6f0a7c9ff762b30c5b9db1bdc7",
           "392c069ca7154cb446b52b0f9c6be33de04e6a6f0a7c9ff762b30c5b9db1bdc7"
         ],
         "constraint": "==1.2.1",
@@ -160,7 +158,6 @@
         "pinned": false,
         "opt": false,
         "dependencies": [
-          "de4d44feb13b9bf2c4b33dbc1d9361a46a51431048b1c303cb04298b7f015192",
           "de4d44feb13b9bf2c4b33dbc1d9361a46a51431048b1c303cb04298b7f015192"
         ],
         "constraint": "==2.2.0",
@@ -217,22 +214,12 @@
     },
     "entrypoints": [
       "092cfae92b533f27d1a40489c6b6b2947dd73f2fc7621fa8dc89f75cf91885df",
-      "092cfae92b533f27d1a40489c6b6b2947dd73f2fc7621fa8dc89f75cf91885df",
-      "1771fae3f12276d55017ad5cba1438f7f3bdc1df9b1ac11c6617c88a9a30d2c6",
       "1771fae3f12276d55017ad5cba1438f7f3bdc1df9b1ac11c6617c88a9a30d2c6",
       "3a7a7cc18fcf23a1d6688eb0bbf3519cd8b34c44ca052cec29a6a3c847c24b77",
-      "3a7a7cc18fcf23a1d6688eb0bbf3519cd8b34c44ca052cec29a6a3c847c24b77",
       "4baf7dd39222b80f5cf99d42a7680230347c91800c8eb83782fedc6f9a8dce24",
-      "4baf7dd39222b80f5cf99d42a7680230347c91800c8eb83782fedc6f9a8dce24",
-      "4baf7dd39222b80f5cf99d42a7680230347c91800c8eb83782fedc6f9a8dce24",
-      "4baf7dd39222b80f5cf99d42a7680230347c91800c8eb83782fedc6f9a8dce24",
-      "4baf7dd39222b80f5cf99d42a7680230347c91800c8eb83782fedc6f9a8dce24",
-      "4beffe8f19bd92ebd061cfcf0f6fc22aff5a983169781cfc857b21365b619553",
       "4beffe8f19bd92ebd061cfcf0f6fc22aff5a983169781cfc857b21365b619553",
       "8f9e9d07f831e4c29d54a303561b93ee81dd3398b06e032c054b3d1097a13871",
       "a0de6c001f6dcd1f9cab8829898caff97ce30154497d3c91a10039289ade2ff4",
-      "a0de6c001f6dcd1f9cab8829898caff97ce30154497d3c91a10039289ade2ff4",
-      "d5ae631affa6aa41efffabcb838f11fc79dd668e93334f0ec6553a44b70570e8",
       "d5ae631affa6aa41efffabcb838f11fc79dd668e93334f0ec6553a44b70570e8"
     ]
   },
@@ -272,24 +259,6 @@
         "hashes": {
           "rockspec": "sha256-UTm5B7j105MBx/C45QoJrB0Fo4YZhjZkwvdM0BzWbzo=",
           "source": "sha256-ehaa9oG8O+c4ER845qgHd6MgOmAsECOv6u2q0vIu4pg="
-        }
-      },
-      "14a12ec6080e7e9ec24d84932227f38833732b5d73a32673f63d448c204dc550": {
-        "name": "dkjson",
-        "version": "2.8-2",
-        "pinned": false,
-        "opt": false,
-        "dependencies": [],
-        "constraint": ">=2.1.0",
-        "binaries": [],
-        "source": "luarocks_rockspec+https://luarocks.org/",
-        "source_url": {
-          "type": "url",
-          "url": "https://dkolf.de/dkjson-lua/dkjson-2.8.tar.gz"
-        },
-        "hashes": {
-          "rockspec": "sha256-x2SxooqaXo4zME2WBwOOtQ76zCV9h2wXrnsS46rbJEM=",
-          "source": "sha256-JOjNO+uRwchh63uz+8m9QYu/+a1KpdBHGBYlgjajFTI="
         }
       },
       "287e827f4a088d41bba04af5f61a13614346c16fe8150eb7c4246e67d6fd163e": {
@@ -434,25 +403,6 @@
           "source": "sha256-IjNkK1leVtYgbEjUqguVMjbdW+0BHAOCE0pazrVuF50="
         }
       },
-      "7370b14b0babdebd17c1f10114f1c45c9e69379530bebca47752a8cca877f288": {
-        "name": "luasystem",
-        "version": "0.7.0-1",
-        "pinned": false,
-        "opt": false,
-        "dependencies": [],
-        "constraint": ">=0.2.0",
-        "binaries": [],
-        "source": "luarocks_rockspec+https://luarocks.org/",
-        "source_url": {
-          "type": "git",
-          "url": "https://github.com/lunarmodules/luasystem.git",
-          "ref": "v0.7.0"
-        },
-        "hashes": {
-          "rockspec": "sha256-hWMXwQPjelmAr/6trpHYNajeIirUpxsIcL8LXRJ5oLA=",
-          "source": "sha256-/hob/bDP3CQeMZuz29a4XTRzlU7I7O2W/EszJEueq8c="
-        }
-      },
       "aa700d6a934caa749d578927c97e22211ffabf97234705d63e95dc6403f6aafe": {
         "name": "busted",
         "version": "2.3.0-1",
@@ -460,15 +410,13 @@
         "opt": false,
         "dependencies": [
           "5abed54457baf9037ff989a1ec78172ee7483d87e794bc9175dbed61f08be72c",
-          "7370b14b0babdebd17c1f10114f1c45c9e69379530bebca47752a8cca877f288",
-          "14a12ec6080e7e9ec24d84932227f38833732b5d73a32673f63d448c204dc550",
+          "fe607fc3a725b032acf5722632cf6993702c56ffa7c9f65e28f9d0324c17be34",
+          "0c1551a18e14018d6694a82036fac28c807e983f9d357c5d5ad377328324cef3",
           "6ce29c2c535c40246c386c056f24689344cddb56ec397473931431e6b67694d2",
           "455cd98d50c6191a9685cffcda4ce783efbb957934625e134c39f43bd5df6818",
           "287e827f4a088d41bba04af5f61a13614346c16fe8150eb7c4246e67d6fd163e",
           "2bd1c8e4fea66a88aeb65c1c8a3d0efdf188d681d2d47f163b976a771545aac9",
-          "01a3c364614bddff7370223a5a9c4580f8e62d144384148444c518ec5367a59b",
-          "fe607fc3a725b032acf5722632cf6993702c56ffa7c9f65e28f9d0324c17be34",
-          "0c1551a18e14018d6694a82036fac28c807e983f9d357c5d5ad377328324cef3"
+          "01a3c364614bddff7370223a5a9c4580f8e62d144384148444c518ec5367a59b"
         ],
         "constraint": null,
         "binaries": [
