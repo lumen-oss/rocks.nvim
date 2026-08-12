@@ -1,33 +1,45 @@
 local check = {}
 
----@param tbl table The table to validate
+--- Like |vim.validate|, but populates errs (mutating it) if the validation fails.
+---@param errs      string[]               Errors
+---@param name      string                 Argument name
+---@param value     unknown                Argument value
+---@param validator vim.validate.Validator
+---@param optional? boolean                Argument is optional (may be omitted)
+---@param message?  string                 message when validation fails
 ---@see vim.validate
----@return boolean is_valid
----@return string|nil error_message
-local function validate(tbl)
-    local ok, err = pcall(vim.validate, tbl)
-    return ok or false, "lux: Invalid config" .. (err and ": " .. err or "")
+local function validate(errs, name, value, validator, optional, message)
+    local ok, err = pcall(vim.validate, name, value, validator, optional, message)
+    if not ok then
+        table.insert(errs, err)
+    end
 end
 
----Validates the config.
+--- Validates the config.
 ---@param cfg LuxConfig
 ---@return boolean is_valid
----@return string|nil error_message
+---@return string | never error_message
 function check.validate(cfg)
-    local ok, err = validate({
-        lazy = { cfg.lazy, "boolean" },
-        dynamic_rtp = { cfg.dynamic_rtp, "boolean" },
-        generate_help_pages = { cfg.generate_help_pages, "boolean" },
-    })
+    local errs = {}
+    validate(errs, "lux_nvim.lazy", cfg.lazy, "boolean")
+    validate(errs, "lux_nvim.dynamic_rtp", cfg.dynamic_rtp, "boolean")
+    validate(errs, "lux_nvim.generate_help_pages", cfg.generate_help_pages, "boolean")
+    local ok = #errs > 0
+    ---@type string | never
+    local error_message
     if not ok then
-        return false, err
+        error_message = ([[lux: Invalid config.
+%s
+]])
+            ---@diagnostic disable-next-line: call-non-callable
+            :format(vim.iter(errs):join("\n"))
     end
-    return true
+    return ok, error_message
 end
 
----Recursively check a table for unrecognized keys,
----using a default table as a reference
----@param tbl table
+--- Recursively check a table for unrecognized keys,
+--- using a default table as a reference
+---@param tbl         table
 ---@param default_tbl table
 ---@return string[]
 function check.get_unrecognized_keys(tbl, default_tbl)

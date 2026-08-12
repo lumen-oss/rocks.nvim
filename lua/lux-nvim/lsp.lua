@@ -1,6 +1,7 @@
 local lsp = {}
 
-local pathlib = require("pathlib")
+local pathlib = require("pathlib") ---@as PathlibPath
+
 local port_path = pathlib.stdpath("run") / "lux-lsp-port"
 
 function lsp.configure_lsp()

@@ -2,7 +2,7 @@ local cmd = require("mega.cmdparse")
 local config = require("lux-nvim.config.lux-config")
 local coro = require("lux-nvim.coroutine")
 local lux = require("lux-nvim.lux-lua-shim")
-local paths = require("lua.lux-nvim.paths")
+local paths = require("lux-nvim.paths")
 local workspace = require("lux-nvim.workspace")
 
 local commands = {}

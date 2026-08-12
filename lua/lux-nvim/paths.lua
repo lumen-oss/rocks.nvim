@@ -23,6 +23,7 @@ function paths.add_to_package_path(pkgs, ws, cfg)
     ---@type Tree
     local tree = ws:tree(cfg)
 
+    ---@diagnostic disable-next-line: call-non-callable
     local package_path_extension = vim.iter(pkgs):map(
         ---@param pkg LocalPackage
             function(pkg)
@@ -38,7 +39,7 @@ end
 --- Ensures that the symlink between the site/pack/lux directory from the tree and the
 --- actual Neovim site is maintained properly.
 function paths.ensure_symlink()
-    local pathlib = require("pathlib")
+    local pathlib = require("pathlib") ---@as PathlibPath
     local log = require("lux-nvim.log")
 
     local cfg = config.default()

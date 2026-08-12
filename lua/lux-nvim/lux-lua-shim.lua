@@ -51,6 +51,36 @@ local _CLASS_DownloadedRockspec_ = {
 	rockspec = function(self) end,
 }
 
+--- A workspace, which can contain one or many Lux projects
+--- @class Workspace
+local _CLASS_Workspace_ = {
+	--- @param self Workspace
+	--- @return string
+	lockfile_path = function(self) end,
+	--- @param self Workspace
+	--- @param config Config Lux config
+	--- @return string
+	luarc_path = function(self, config) end,
+	--- @param self Workspace
+	--- @return Project[]
+	members = function(self) end,
+	--- @param self Workspace
+	--- @return string
+	root = function(self) end,
+	--- @param self Workspace
+	--- @param name string | nil Package name of the member to select
+	--- @return Project
+	single_member_or_select = function(self, name) end,
+	--- @param self Workspace
+	--- @param config Config Lux config
+	--- @return Tree
+	test_tree = function(self, config) end,
+	--- @param self Workspace
+	--- @param config Config Lux config
+	--- @return Tree
+	tree = function(self, config) end,
+}
+
 --- Specification for running a test suite with a Lua script
 --- @class LuaScriptTestSpec
 local _CLASS_LuaScriptTestSpec_ = {
@@ -959,6 +989,7 @@ local _CLASS_OperationsModule_ = {
 	--- @param workspace Workspace Workspace containing the project to modify
 	--- @param deps table Dependencies to add, e.g. { regular = {'foo', 'bar >= 1.0'} }
 	--- @param config Config Lux config
+    --- @return LocalPackage[]
 	add = function(workspace, deps, config) end,
 	--- Build a workspace
 	--- @param workspace Workspace Workspace to build

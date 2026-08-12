@@ -10,7 +10,7 @@ if vim.fn.has("nvim-" .. min_version) ~= 1 then
     return
 end
 
-local pathlib = require("pathlib")
+local pathlib = require("pathlib") ---@as PathlibPath
 
 local toml_path = pathlib.stdpath("config") / "lux.toml"
 
