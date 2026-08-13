@@ -4,7 +4,7 @@
 
 `lux-nvim.config.check.validate`({cfg})
 
-the config.
+Validates the config.
 
 Parameters ~
     {cfg} |LuxConfig|
@@ -13,18 +13,18 @@ Return ~
     `(boolean)` is_valid
 
 Return ~
-    `(string)`|`(nil)` |error_message|
+    `(string)` | |never| error_message
 
 ------------------------------------------------------------------------------
                                  *lux-nvim.config.check.get_unrecognized_keys()*
 
 `lux-nvim.config.check.get_unrecognized_keys`({tbl}, {default_tbl})
 
-check a table for unrecognized keys,
-a default table as a reference
+Recursively check a table for unrecognized keys,
+using a default table as a reference
 
 Parameters ~
-    {tbl} `(table)`
+    {tbl}         `(table)`
     {default_tbl} `(table)`
 
 Return ~
