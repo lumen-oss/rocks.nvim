@@ -3,6 +3,16 @@ lux-faq-table-of-contents	lux-faq.txt	/*lux-faq-table-of-contents*
 lux-faq.txt	lux-faq.txt	/*lux-faq.txt*
 lux-introduction	lux.txt	/*lux-introduction*
 lux-introduction-usage	lux.txt	/*lux-introduction-usage*
+lux-nvim-commands-commands	lux-nvim-commands.txt	/*lux-nvim-commands-commands*
+lux-nvim-commands-commands-editing-the-lux.toml	lux-nvim-commands.txt	/*lux-nvim-commands-commands-editing-the-lux.toml*
+lux-nvim-commands-commands-installing-plugins	lux-nvim-commands.txt	/*lux-nvim-commands-commands-installing-plugins*
+lux-nvim-commands-commands-pinning-plugins	lux-nvim-commands.txt	/*lux-nvim-commands-commands-pinning-plugins*
+lux-nvim-commands-commands-removing-plugins	lux-nvim-commands.txt	/*lux-nvim-commands-commands-removing-plugins*
+lux-nvim-commands-commands-syncing-plugins	lux-nvim-commands.txt	/*lux-nvim-commands-commands-syncing-plugins*
+lux-nvim-commands-commands-updating-plugins	lux-nvim-commands.txt	/*lux-nvim-commands-commands-updating-plugins*
+lux-nvim-commands-commands-viewing-the-logfile	lux-nvim-commands.txt	/*lux-nvim-commands-commands-viewing-the-logfile*
+lux-nvim-commands-table-of-contents	lux-nvim-commands.txt	/*lux-nvim-commands-table-of-contents*
+lux-nvim-commands.txt	lux-nvim-commands.txt	/*lux-nvim-commands.txt*
 lux-nvim.commands.create_commands()	lux-api-commands.txt	/*lux-nvim.commands.create_commands()*
 lux-nvim.config.check.get_unrecognized_keys()	lux-api-config-check.txt	/*lux-nvim.config.check.get_unrecognized_keys()*
 lux-nvim.config.check.validate()	lux-api-config-check.txt	/*lux-nvim.config.check.validate()*

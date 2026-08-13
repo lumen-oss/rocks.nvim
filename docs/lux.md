@@ -1,9 +1,9 @@
 # Introduction
 
 Welcome to the `lux.nvim` documentation! `lux.nvim` is a Neovim plugin manager that works differently than the rest -
-instead of using `git` to pull down code repositories, it instead uses `luarocks.org`, a site for hosting Lua code.
+instead of using `git` to pull down code repositories, it uses `luarocks.org`, a site for hosting Lua code.
 
-By reusing proper programming infrastructure, lux gains access to multiple first-class features like versioning, build scripts,
+By reusing proper programming infrastructure, lux gets to support multiple first-class features like versioning, build scripts,
 dependencies, build dependencies, testing infrastructure, a centralized place for discovering plugins and more! This means that developers
 can freely write more sophisticated, modern plugins and all users need to do is `:Lux add the-plugin` to install it.
 
@@ -13,12 +13,14 @@ Using lux is incredibly intuitive and is broken down into a few categories: find
 
 ### Finding Plugins
 
-After typing `:Lux add ` into the command bar you may press <Tab> to trigger tab completion. This will supply you with a list of all
+After typing `:Lux add ` into the command bar you may press `<Tab>` to trigger tab completion. This will supply you with a list of all
 possible installable packages.
 
 If a plugin doesn't exist on `luarocks.org`, you may install plugins through git instead:
-1. `:Lux add folke/which-key.nvim` - installs from `github.com/folke/which-key.nvim`
-2. `:Lux add https://codeberg.org/amartin/fallo` - installs from an alternative git forge
+
+- `:Lux add folke/which-key.nvim` - installs from `github.com/folke/which-key.nvim`
+
+- `:Lux add https://codeberg.org/amartin/fallo` - installs from an alternative git forge
 
 ### Installing Plugins
 

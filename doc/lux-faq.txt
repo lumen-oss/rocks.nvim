@@ -1,5 +1,5 @@
 *lux-faq.txt*
-                               For NVIM v0.12.4    Last change: 2026 August 13
+                               For NVIM v0.12.4    Last change: 2026 August 24
 
 ==============================================================================
 Table of Contents                                  *lux-faq-table-of-contents*
