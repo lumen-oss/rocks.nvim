@@ -8,6 +8,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    lux.url = "github:lumen-oss/lux";
   };
 
   outputs =
@@ -30,10 +31,12 @@
         );
 
     in
-    foreach inputs.nixpkgs.legacyPackages (
+      {
+        overlays.default = import ./nix/overlay.nix self;
+      } // foreach inputs.nixpkgs.legacyPackages (
       system: pkgs:
       let
-        pkgs = inputs.nixpkgs.legacyPackages.${system};
+        pkgs = (inputs.nixpkgs.legacyPackages.${system}.extend inputs.lux.overlays.default).extend self.overlays.default;
       in
       {
         legacyPackages.${system} = pkgs;
@@ -48,6 +51,7 @@
               pkg-config
               cargo
               emmylua-ls
+              openssl
             ];
           shellHook = ''
             # for `lx check`

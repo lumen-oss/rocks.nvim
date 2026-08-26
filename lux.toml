@@ -8,15 +8,12 @@ labels = [ "lua", "lux", "neovim", "neovim-plugin", "nvim", "package-manager", "
 license = "GPL-3.0"
 
 [dependencies]
-"fidget.nvim" = "1.6.0-1"
-fzy = "1.0.3-1"
-nvim-nio = "1.10.1-1"
-"rtp.nvim" = "1.2.0-1"
-"pathlib.nvim" = "2.2.3-1"
-fallo = "2.2.0-1"
-"mega.cmdparse" = "1.2.1-1"
-# lux-lsp = "0.40.0-1"
-# lux-lua = "0.40.1-2"
+"pathlib.nvim" = "2.2.3"
+"mega.cmdparse" = "1.2.1"
+"fidget.nvim" = "1.6.0"
+fallo = "2.2.0"
+lux-lsp = "0.43.1"
+lux-lua = "0.43.1"
 
 [build_dependencies]
 "mega.vimdoc" = "1.2.0-1"
