@@ -47,13 +47,14 @@ function paths.ensure_symlink()
     ---@type Tree
     local tree = ws:tree(cfg)
 
+    local path = pathlib.new(tree:root()) / "site/pack/lux"
     local target = pathlib.stdpath("data") / "site/pack/lux"
 
-    if target:exists(true) then
+    -- Lux will only create the tree path on demand. If it's not there, then there's
+    -- no reason to make a symlink.
+    if not path:exists() or target:exists(true) then
         return
     end
-
-    local path = pathlib.new(tree:root()) / "site/pack/lux"
 
     if not path:symlink_to(target) then
         -- TODO: better error handling (return Result?)
