@@ -7,7 +7,8 @@ local config = require("lux-nvim.config.lux-config")
 
 function paths.configure_package_path()
     local cfg = config.default()
-    local ws = workspace.get():unwrap()
+    local ws = assert(workspace.get_unchecked(), "lux.nvim: unable to configure package.path")
+
     local lockfile = ws:tree(cfg):lockfile()
 
     -- ISSUE: this will get absolutely all rocks, but we should only be getting
