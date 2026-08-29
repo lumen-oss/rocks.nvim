@@ -4,17 +4,6 @@ local paths = {}
 
 local workspace = require("lux-nvim.workspace")
 local config = require("lux-nvim.config.lux-config")
-local platform = require("lux-nvim.platform")
-
---- Bootstrapping sequence for instsallations made via `luxstrap.nvim`.
---- In order to bootstrap the rest of `lux.nvim`, we need access to the `lux.so`
---- library.
-function paths.bootstrap_lux_lua()
-    local luxstrap_install_dir = vim.fn.stdpath("data")
-    local ext = platform.detect_library_extension()
-
-    package.cpath = package.cpath .. ";" .. luxstrap_install_dir .. "/?" .. ext
-end
 
 function paths.configure_package_path()
     local cfg = config.default()

@@ -2,7 +2,18 @@ if vim.g.loaded_lux_nvim then
     return
 end
 
-require("lux-nvim.paths").bootstrap_lux_lua()
+--- Bootstrapping sequence for instsallations made via `luxstrap.nvim`.
+--- In order to bootstrap the rest of `lux.nvim`, we need access to the `lux.so`
+--- library.
+do
+    local platform = require("lux-nvim.platform")
+
+    local luxstrap_install_dir = vim.fn.stdpath("data")
+    local ext = platform.detect_library_extension()
+
+    package.cpath = package.cpath .. ";" .. luxstrap_install_dir .. "/?" .. ext
+end
+
 require("lux-nvim.paths").configure_package_path()
 
 local log = require("lux-nvim.log")
@@ -20,7 +31,8 @@ local toml_path = pathlib.stdpath("config") / "lux.toml"
 if not toml_path:exists() then
     log:info("project file not created yet. Attempting to create with defaults...")
 
-    local write_result = toml_path:io_write([[
+    local write_result = toml_path:io_write(
+        [[
 package = "neovim-config"
 version = "1.0.0"
 lua = "5.1"
@@ -35,7 +47,8 @@ command = "nvim"
 
 [build]
 type = "builtin"
-    ]])
+    ]]
+    )
 
     if not write_result then
         local msg = string.format(
