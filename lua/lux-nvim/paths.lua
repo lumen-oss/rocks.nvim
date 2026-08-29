@@ -4,6 +4,17 @@ local paths = {}
 
 local workspace = require("lux-nvim.workspace")
 local config = require("lux-nvim.config.lux-config")
+local platform = require("lux-nvim.platform")
+
+--- Bootstrapping sequence for instsallations made via `luxstrap.nvim`.
+--- In order to bootstrap the rest of `lux.nvim`, we need access to the `lux.so`
+--- library.
+function paths.bootstrap_lux_lua()
+    local luxstrap_install_dir = vim.fn.stdpath("data")
+    local ext = platform.detect_library_extension()
+
+    package.cpath = package.cpath .. ";" .. luxstrap_install_dir .. "/?" .. ext
+end
 
 function paths.configure_package_path()
     local cfg = config.default()
@@ -17,23 +28,25 @@ function paths.configure_package_path()
 end
 
 ---@param pkgs LocalPackage[]
----@param ws unknown
----@param cfg Config
+---@param ws   unknown
+---@param cfg  Config
 function paths.add_to_package_path(pkgs, ws, cfg)
     ---@type Tree
     local tree = ws:tree(cfg)
 
     ---@diagnostic disable-next-line: call-non-callable
-    local package_path_extension = vim.iter(pkgs):map(
-        ---@param pkg LocalPackage
-            function(pkg)
+    local package_path_extension = vim.iter(pkgs)
+        :map(
+            ---@param pkg LocalPackage
+            function (pkg)
                 local root = tree:root_for(pkg)
 
                 return string.format("%s/src/?.lua;%s/src/?/init.lua", root, root)
-            end)
+            end
+        )
         :join(";")
 
-    package.path = package.path .. ";" .. package_path_extension
+    package.path = package_path_extension .. ";" .. package.path
 end
 
 --- Ensures that the symlink between the site/pack/lux directory from the tree and the
@@ -59,7 +72,8 @@ function paths.ensure_symlink()
     if not path:symlink_to(target) then
         -- TODO: better error handling (return Result?)
         log:fatal(
-            "Unable to create a symlink from the Lux store to Neovim. This is a bug, please report it to the lux.nvim developers.")
+            "Unable to create a symlink from the Lux store to Neovim. This is a bug, please report it to the lux.nvim developers."
+        )
         error()
     end
 end

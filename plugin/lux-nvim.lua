@@ -2,6 +2,7 @@ if vim.g.loaded_lux_nvim then
     return
 end
 
+require("lux-nvim.paths").bootstrap_lux_lua()
 require("lux-nvim.paths").configure_package_path()
 
 local log = require("lux-nvim.log")
