@@ -5,18 +5,17 @@ local pathlib = require("pathlib") ---@as PathlibPath
 local port_path = pathlib.stdpath("run") / "lux-lsp-port"
 
 function lsp.configure_lsp()
-    -- vim.lsp.config("lx-lsp", {
-    --     cmd = { vim.fn.stdpath("config") .. "/.lux/5.1/bin/lx-lsp" },
-    --     -- cmd = { vim.fn.stdpath("data") .. "/site/pack/lux/" },
-    --     root_dir = function(_, on_dir)
-    --         on_dir(vim.fn.stdpath("config"))
-    --     end,
-    --     cmd_env = {
-    --         LUX_LSP_PORT_FILE = port_path:tostring(),
-    --     }
-    -- })
-    --
-    -- vim.lsp.enable("lx-lsp")
+    vim.lsp.config("lx-lsp", {
+        cmd = { vim.fn.stdpath("data") .. "/lux/5.1/bin/lx-lsp" },
+        root_dir = function(_, on_dir)
+            on_dir(vim.fn.stdpath("config"))
+        end,
+        cmd_env = {
+            LUX_LSP_PORT_FILE = port_path:tostring(),
+        }
+    })
+
+    vim.lsp.enable("lx-lsp")
 end
 
 function lsp.configure_progress()
