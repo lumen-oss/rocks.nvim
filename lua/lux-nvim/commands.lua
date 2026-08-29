@@ -28,9 +28,9 @@ local function set_up_sync_command(subparser)
         local cfg = config.default()
         coro.execute(function()
             local report = lux.operations.sync(ws, cfg)
-            local regular_dependencies_added = report[1].added
 
-            paths.add_to_package_path(regular_dependencies_added, ws, cfg)
+            paths.add_to_package_path(report.added, ws, cfg)
+            -- TODO(vhyrro): use rtp.nvim to add to the runtimepath as well
         end)
     end)
 end
@@ -76,6 +76,8 @@ function commands.create_commands()
 
         coro.execute(function()
             lux.operations.update(ws, data.namespace.packages, cfg)
+
+            -- TODO(vhyrro): display total plugins updated (in fidget.nvim?) after completion
         end)
     end)
 
