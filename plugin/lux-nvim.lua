@@ -2,6 +2,8 @@ if vim.g.loaded_lux_nvim then
     return
 end
 
+require("lux-nvim.paths").configure_package_path()
+
 local log = require("lux-nvim.log")
 
 local min_version = "0.12.0"
@@ -45,7 +47,6 @@ type = "builtin"
     end
 end
 
-require("lux-nvim.paths").configure_package_path()
 require("lux-nvim.paths").ensure_symlink()
 
 -- Activate the Lux loader for proper dependency lookups

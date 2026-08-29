@@ -1,4 +1,5 @@
 local lux_config = {}
+
 local lux = require("lux-nvim.lux-lua-shim")
 
 local default_config = lux.config.new()
