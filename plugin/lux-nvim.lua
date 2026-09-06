@@ -2,7 +2,7 @@ if vim.g.loaded_lux_nvim then
     return
 end
 
---- Bootstrapping sequence for instsallations made via `luxstrap.nvim`.
+--- Bootstrapping sequence for installations made via `luxstrap.nvim`.
 --- In order to bootstrap the rest of `lux.nvim`, we need access to the `lux.so`
 --- library.
 do
@@ -14,7 +14,8 @@ do
     package.cpath = package.cpath .. ";" .. luxstrap_install_dir .. "/?" .. ext
 end
 
-require("lux-nvim.paths").configure_package_path()
+-- Activate the Lux loader for proper dependency lookups
+require("lux-nvim.lux-lua-shim"):loader()
 
 local log = require("lux-nvim.log")
 
@@ -62,11 +63,6 @@ type = "builtin"
 end
 
 require("lux-nvim.paths").ensure_symlink()
-
--- Activate the Lux loader for proper dependency lookups
--- TODO(vhyrro): I don't think loading the loader once is enough for some weird edge cases?
--- Consider tracing how this loader behaves in different environments.
-require("lux-nvim.lux-lua-shim"):loader()
 
 require("lux-nvim.lsp").configure_lsp()
 require("lux-nvim.lsp").configure_progress()

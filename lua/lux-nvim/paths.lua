@@ -5,40 +5,6 @@ local paths = {}
 local workspace = require("lux-nvim.workspace")
 local config = require("lux-nvim.config.lux-config")
 
-function paths.configure_package_path()
-    local cfg = config.default()
-    local ws = assert(workspace.get_unchecked(), "lux.nvim: unable to configure package.path")
-
-    local lockfile = ws:tree(cfg):lockfile()
-
-    -- ISSUE: this will get absolutely all rocks, but we should only be getting
-    -- entrypoints. transitive dependencies should not be in the package path and the lux
-    -- loader should be the one intercepting the require calls.
-    paths.add_to_package_path(vim.tbl_values(lockfile:rocks()), ws, cfg)
-end
-
----@param pkgs LocalPackage[]
----@param ws   unknown
----@param cfg  Config
-function paths.add_to_package_path(pkgs, ws, cfg)
-    ---@type Tree
-    local tree = ws:tree(cfg)
-
-    ---@diagnostic disable-next-line: call-non-callable
-    local package_path_extension = vim.iter(pkgs)
-        :map(
-            ---@param pkg LocalPackage
-            function (pkg)
-                local root = tree:root_for(pkg)
-
-                return string.format("%s/src/?.lua;%s/src/?/init.lua", root, root)
-            end
-        )
-        :join(";")
-
-    package.path = package_path_extension .. ";" .. package.path
-end
-
 --- Ensures that the symlink between the site/pack/lux directory from the tree and the
 --- actual Neovim site is maintained properly.
 function paths.ensure_symlink()
