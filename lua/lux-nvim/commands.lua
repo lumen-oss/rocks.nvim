@@ -29,7 +29,7 @@ local function set_up_sync_command(subparser)
         coro.execute(function()
             local report = lux.operations.sync(ws, cfg)
 
-            paths.add_to_package_path(report.added, ws, cfg)
+            -- paths.add_to_package_path(report.added, ws, cfg)
             -- TODO(vhyrro): use rtp.nvim to add to the runtimepath as well
         end)
     end)
@@ -95,7 +95,7 @@ function commands.create_commands()
 
         coro.execute(function()
             local added = lux.operations.add(ws, { regular = data.namespace.packages }, cfg)
-            paths.add_to_package_path(added, ws, cfg)
+            -- paths.add_to_package_path(added, ws, cfg)
         end)
     end)
 
