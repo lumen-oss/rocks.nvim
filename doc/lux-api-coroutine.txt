@@ -1,0 +1,13 @@
+==============================================================================
+------------------------------------------------------------------------------
+                                                  *lux-nvim.coroutine.execute()*
+
+`lux-nvim.coroutine.execute`({func})
+
+Parameters ~
+    {func} fun()
+
+
+WARNING: This file is auto-generated. Do not edit it!
+
+ vim:tw=78:ts=8:noet:ft=help:norl:

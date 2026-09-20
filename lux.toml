@@ -1,0 +1,26 @@
+package = "lux.nvim"
+version = "3.0.0"
+lua = "5.1"
+
+[description]
+summary = "🌒 Neovim plugin management inspired by Cargo, powered by lux"
+labels = [ "lua", "lux", "neovim", "neovim-plugin", "nvim", "package-manager", "plugin", "plugin-manager" ]
+license = "GPL-3.0"
+
+[dependencies]
+"pathlib.nvim" = "2.2.3"
+"mega.cmdparse" = "1.2.1"
+"fidget.nvim" = "1.6.0"
+fallo = "2.2.0"
+lux-lsp = "0.43.1"
+lux-lua = "0.43.1"
+
+[build_dependencies]
+"mega.vimdoc" = "1.2.0-1"
+
+[test]
+type = "busted-nlua"
+
+[build]
+type = "builtin"
+copy_directories = [ "doc", "plugin" ]

@@ -1,0 +1,37 @@
+-- Module for setting up the package path and symlinking the site/ path.
+
+local paths = {}
+
+local workspace = require("lux-nvim.workspace")
+local config = require("lux-nvim.config.lux-config")
+
+--- Ensures that the symlink between the site/pack/lux directory from the tree and the
+--- actual Neovim site is maintained properly.
+function paths.ensure_symlink()
+    local pathlib = require("pathlib") ---@as PathlibPath
+    local log = require("lux-nvim.log")
+
+    local cfg = config.default()
+    local ws = workspace.get():unwrap()
+    ---@type Tree
+    local tree = ws:tree(cfg)
+
+    local path = pathlib.new(tree:root()) / "site/pack/lux"
+    local target = pathlib.stdpath("data") / "site/pack/lux"
+
+    -- Lux will only create the tree path on demand. If it's not there, then there's
+    -- no reason to make a symlink.
+    if not path:exists() or target:exists(true) then
+        return
+    end
+
+    if not path:symlink_to(target) then
+        -- TODO: better error handling (return Result?)
+        log:fatal(
+            "Unable to create a symlink from the Lux store to Neovim. This is a bug, please report it to the lux.nvim developers."
+        )
+        error()
+    end
+end
+
+return paths
