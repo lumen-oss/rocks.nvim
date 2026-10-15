@@ -23,8 +23,12 @@ jobs:
         uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
           rustflags: ""
+      - name: Install Lua 5.1
+        uses: luarocks/gh-actions-lua@v14
+        with:
+          luaVersion: "5.1.5"
       - name: LuaRocks Upload
-        uses: nvim-neorocks/luarocks-tag-release@v7
+        uses: nvim-neorocks/luarocks-tag-release@v7.2.0
         env:
           LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
         with:
