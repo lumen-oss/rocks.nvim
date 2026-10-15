@@ -33,6 +33,7 @@ describe("luarocks config", function()
                 { name = "rocks.nvim", root = tempdir },
             },
             arch = "test-arch",
+            check_certificates = true,
         }, luarocks_config)
     end)
 end)
