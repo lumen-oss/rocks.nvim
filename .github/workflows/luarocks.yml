@@ -28,13 +28,11 @@ jobs:
         with:
           luaVersion: "5.1.5"
       - name: LuaRocks Upload
-        uses: nvim-neorocks/luarocks-tag-release@v8
+        uses: nvim-neorocks/luarocks-tag-release@v7.2.0
         env:
           LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
         with:
           version: ${{ env.LUAROCKS_VERSION }}
-          extra_luarocks_args: |
-            --lua-version 5.1
           dependencies: |
             lua == 5.1
             luarocks >= 3.11.1, < 4.0.0
