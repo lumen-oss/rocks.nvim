@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.49.1](https://github.com/lumen-oss/rocks.nvim/compare/v2.49.0...v2.49.1) (2026-10-15)
+
+
+### Bug Fixes
+
+* enable certificate checking in luarocks config ([#721](https://github.com/lumen-oss/rocks.nvim/issues/721)) ([9d6a7d0](https://github.com/lumen-oss/rocks.nvim/commit/9d6a7d0dd92d75468199fda97d86c51b7ad923bb))
+
 ## [2.49.0](https://github.com/lumen-oss/rocks.nvim/compare/v2.48.0...v2.49.0) (2026-05-15)
 
 
