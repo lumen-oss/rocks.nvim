@@ -33,6 +33,8 @@ jobs:
           LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
         with:
           version: ${{ env.LUAROCKS_VERSION }}
+          extra_luarocks_args: |
+            --lua-version 5.1
           dependencies: |
             lua == 5.1
             luarocks >= 3.11.1, < 4.0.0
